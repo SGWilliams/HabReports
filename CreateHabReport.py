@@ -1,4 +1,4 @@
-# This script creates modeling reports for GAP 
+# This script creates habitat model reports for GAP 
 #
 # Script exports the model report in HTML and pdf
 #
@@ -48,7 +48,7 @@ def get_config_values(configFile):
 		'fileDir':"",
         'Species_con':"",
         'WHRdB_con':"",
-		'AnalDB_con':"",
+		 'AnalDB_con':"",
         'wkhtmltopdf_exe':"",
 		}
     try:
@@ -127,7 +127,7 @@ def processSppReport(spp):
 
     print('Done Loading Tables for spp=' +spp)
 
-    template_vars = {"title" : "Modeling Report for "+ spp ,
+    template_vars = {"title" : "Habitat Model Report for "+ spp ,
                      "common_name": common,
                      "sci_name": sciname,
                      #"federal_status": fs_str,
@@ -143,10 +143,10 @@ def processSppReport(spp):
                      "usgs_logo": usgs_logo,
                      }
     html_out = template.render(template_vars)
-    html_file = io.open('ModellingReport_' + spp + '.html',"w")
+    html_file = io.open(spp + '_CONUS_2001v1_SppRpt.html',"w")
     html_file.write(html_out)
     html_file.close()
-    fn = 'ModellingReport_' + spp + '.pdf'
+    fn = spp + '_CONUS_2001v1_SppRpt.pdf'
     pdf = pdfkit.from_string(html_out, fn, configuration=pdfconfig, options=pdfkit_options)
 
 
@@ -165,7 +165,7 @@ AnalDB_con = pyodbc.connect(config['AnalDB_con'])
 usgs_logo = '<img src="file:///'+fileDir+'html_files/USGS_ID_green.png" id="usgslogo"/>'
 
 env = Environment(loader=FileSystemLoader('.'))
-template = env.get_template("ModelReport.html")
+template = env.get_template("HabReportTemplate.html")
 pdf_css = '<link rel="stylesheet" type="text/css" href="file:///'+fileDir+'html_files/stylesheet.css">'
 pdfkit_options = {
     'page-size': 'Letter',
