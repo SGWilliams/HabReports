@@ -1,0 +1,115 @@
+body
+{
+font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+font-size: 12px;
+color: rgb(64,64,64);
+}
+table.dataTable tbody td:first-child {
+    text-align: left;
+}
+table.dataTable thead th:first-child {
+    text-align: left;
+}
+thead {
+    display: table-header-group
+}
+
+tfoot {
+    display: table-row-group
+}
+
+tr {
+    page-break-inside: avoid;
+}
+.pagebreak {
+    page-break-before: always;
+}	
+		
+ table {
+     width:100%;
+ }
+tbody th {
+    text-align: left;
+}
+.Citations tr { border: none;  }
+
+#DataTables_Table_2 {
+    border: 0 !important;
+}
+#headerinfo span {
+    display:inline-block;
+    margin-right: 20px;
+}
+#usgslogo {
+    width: 130px;
+    float:left;
+}
+#mainTitle {
+    float: left;
+    clear:left;
+    font-size: 40px;
+    font-weight: normal;
+    margin-top: 0px;
+	margin-bottom: 0px;
+	font-family: "Arial Narrow", Arial, sans-serif;
+    font-stretch: condensed;
+    text-transform: uppercase;
+}
+#sppnames {
+    float: left;
+	margin-top:0px;
+	margin-bottom:4px;
+    line-height:20px;
+    font-size: 16px;
+}
+#sppinfo span {
+    display:inline-block;
+    margin-right: 20px;
+}
+hr {
+    clear:both;
+    margin-top:10px;
+
+}
+table.dataTable thead .sorting {
+    background-image: none;
+    
+}
+.center {
+    padding-left: 40px !important;
+}
+#mapDiv {
+    height: 725px; 
+    width: 100%;
+    text-align: center;
+}
+#habmap {
+    height:100%;
+}
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 5px 6px;
+    font-size: 10px;
+}
+table.dataTable tbody td {
+   text-align:center;
+}
+table.dataTable thead th, table.dataTable thead td {
+    border-bottom: 1px solid #111;
+    padding: 5px 10px;
+}
+table.Citations.dataTable tbody td {
+    text-align: left;
+}
+#sppinfo {
+    font-size: 12px;
+}
+.regioncodes {
+    float: left;
+    width: 60%;
+}
+
+.downloadhint {
+    float: right;
+    margin-left: 10px;
+    width: 35%;
+}
