@@ -61,22 +61,22 @@
                         if ( data[1].replace(/[\$,]/g, '') == 'Maximum (m)') {
                              $('th', row).eq(0).addClass('center');
                        }
-                       if ( data[1].replace(/[\$,]/g, '') == 'Minimum size (ha)') {
+                       if ( data[1].replace(/[\$,]/g, '') == 'Minimum Size (ha)') {
                              $('th', row).eq(0).addClass('center');
                        }
-                       if ( data[1].replace(/[\$,]/g, '') == 'Ecotone width (m)') {
+                       if ( data[1].replace(/[\$,]/g, '') == 'Ecotone Width (m)') {
                              $('th', row).eq(0).addClass('center');
                        }
-                       if ( data[1].replace(/[\$,]/g, '') == 'Distance from edge (m)') {
+                       if ( data[1].replace(/[\$,]/g, '') == 'Distance From Edge (m)') {
                              $('th', row).eq(0).addClass('center');
                        }
                        if ( data[1].replace(/[\$,]/g, '') == 'Elevation Limits') {
                              $('th', row).eq(0).addClass('left');
                        }
-                       if ( data[1].replace(/[\$,]/g, '') == 'Hydrographic Information') {
+                       if ( data[1].replace(/[\$,]/g, '') == 'Hydrographic Limitations') {
                              $('th', row).eq(0).addClass('left');
                        }
-                       if ( data[1].replace(/[\$,]/g, '') == 'Landcover') {
+                       if ( data[1].replace(/[\$,]/g, '') == 'Landcover Limitations') {
                              $('th', row).eq(0).addClass('left');
                        }
                        if (data[1].replace(/[\$,]/g, '') == 'Variable') {
@@ -111,29 +111,33 @@
                 $(".sorting, .sorting_asc, .sorting_desc").unbind('click');
                 cols = mv_dt.columns()[0].length;
                 var blankrow = mv_dt.row.add(create_row(1, '', cols)).draw().node();
-                $( blankrow ).css( 'background-color', 'rgb(245, 245, 245)' );
-	            blankrow = mv_dt.row.add(create_row(3, '', cols)).draw().node();
-                $( blankrow ).css( 'background-color', 'rgb(245, 245, 245)' );
-                var elevrow = mv_dt.row.add(create_row(4, 'Elevation Limits', cols)).draw().node();
-                $( elevrow ).css( 'font-weight', 'bold' );
-                blankrow = mv_dt.row.add(create_row(7, '', cols)).draw().node();
-                $( blankrow ).css( 'background-color', 'rgb(245, 245, 245)' );
-                var headerrow = mv_dt.row.add(create_row(8, 'Hydrographic Information', cols)).draw().node();
-                $( headerrow ).css( 'color', 'rgb(100, 100, 100)' ).css( 'font-weight', 'bold' );
-                blankrow = mv_dt.row.add(create_row(12, '', cols)).draw().node();
-                $( blankrow ).css( 'background-color', 'rgb(245, 245, 245)' );
+                $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
+                var headerrow = mv_dt.row.add(create_row(2, 'Landcover Limitations', cols)).draw().node();
+                $( headerrow ).css( 'font-weight', 'bold' ).css( 'font-style', 'italic' ).css( 'background-color', 'rgb(195, 242, 184)' );
+                blankrow = mv_dt.row.add(create_row(5, '', cols)).draw().node();
+                $( blankrow ).css( 'background-color', 'rgb(230, 230, 230)' );
+                blankrow = mv_dt.row.add(create_row(8, '', cols)).draw().node();
+                $( blankrow ).css( 'background-color', 'rgb(230, 230, 230)' );
+	            blankrow = mv_dt.row.add(create_row(11, '', cols)).draw().node();
+                $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
+                headerrow = mv_dt.row.add(create_row(12, 'Hydrographic Limitations', cols)).draw().node();
+                $( headerrow ).css( 'font-weight', 'bold' ).css( 'font-style', 'italic' ).css( 'background-color', 'rgb(175, 214, 254)' );
                 blankrow = mv_dt.row.add(create_row(16, '', cols)).draw().node();
-                $( blankrow ).css( 'background-color', 'rgb(245, 245, 245)' );
+                $( blankrow ).css( 'background-color', 'rgb(230, 230, 230)' );
                 blankrow = mv_dt.row.add(create_row(20, '', cols)).draw().node();
-                $( blankrow ).css( 'background-color', 'rgb(245, 245, 245)' );
-                blankrow = mv_dt.row.add(create_row(23, '', cols)).draw().node();
-                $( blankrow ).css( 'background-color', 'rgb(245, 245, 245)' );
-                headerrow = mv_dt.row.add(create_row(24, 'Landcover', cols)).draw().node();
-                $( headerrow ).css( 'color', 'rgb(100, 100, 100)' ).css( 'font-weight', 'bold' );
-                blankrow = mv_dt.row.add(create_row(27, '', cols)).draw().node();
-                $( blankrow ).css( 'background-color', 'rgb(245, 245, 245)' );
-                blankrow = mv_dt.row.add(create_row(30, '', cols)).draw().node();
-                $( blankrow ).css( 'background-color', 'rgb(245, 245, 245)' );
+                $( blankrow ).css( 'background-color', 'rgb(230, 230, 230)' );
+                blankrow = mv_dt.row.add(create_row(24, '', cols)).draw().node();
+                $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
+                blankrow = mv_dt.row.add(create_row(26, '', cols)).draw().node();
+                $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
+                blankrow = mv_dt.row.add(create_row(28, '', cols)).draw().node();
+                $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
+	            blankrow = mv_dt.row.add(create_row(30, '', cols)).draw().node();
+                $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
+                var elevrow = mv_dt.row.add(create_row(31, 'Elevation Limits', cols)).draw().node();
+                $( elevrow ).css( 'font-weight', 'bold' );
+                blankrow = mv_dt.row.add(create_row(34, '', cols)).draw().node();
+                $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
                mv_dt.draw();
            
                $("th:contains('ModellingMapUnit')").html("Map Unit");
@@ -170,19 +174,27 @@
 		<span>{{usgs_logo}}</span>
 		<span><h1 id="mainTitle">Species Habitat Model Report</h1></span>
 		<span>	<div id="sppnames">
-					<b>Common Name: </b>{{common_name}}
+					<b>{{common_name}}</b>
 					<br />
-					<b>Scientific Name: </b><i>{{sci_name}}</i>
+					<i>{{sci_name}}</i>
 				</div> </span>
 <hr>		
-    <div id="sppinfo">
+<!--     <div id="sppinfo">
         <span><b>Gap Code: </b> {{spp}}</span>
         <span><b>ITIS TSN: </b> {{itis}}</span>
         <span><b>Version: </b> CONUS_2001v1</span>
         <span><b>ScienceBase Data Link: </b> {{SBpath}}</span>
+ --><!--        <span style="width:50%"><b>Federal Status: </b>{{federal_status}}</span>
+        <span style="width:50%"><b>SGCN States: </b>{{sgcn_states}}</span> -->
+    <div class="items">
+		<div class="item"><b>Gap Code: </b> {{spp}}</div>
+        <div class="item"><b>ITIS TSN: </b> {{itis}}</div>
+        <div class="item"><b>Version: </b> CONUS_2001v1</div>
+        <div class="item"><b>ScienceBase Data Link: </b> {{SBpath}}</div>
 <!--        <span style="width:50%"><b>Federal Status: </b>{{federal_status}}</span>
         <span style="width:50%"><b>SGCN States: </b>{{sgcn_states}}</span> -->
     </div>
+<hr>		
     <div style="clear:both;">
         <h2>Map of Predicted Habitat</h2>
         <div id="mapDiv">{{map_file}}
@@ -193,15 +205,15 @@
         {{ modelling_variables_pvtable }}
       <div>
         <span class="regioncodes">GP = Great Plains;    NE = Northeast;    NW = Northwest;    SE = Southeast;    SW = Southwest;    UM = Upper Midwest</span>
-        <span class="downloadhint"><a href = "https://gapanalysis.usgs.gov/species/data/download/" title="Link to GAP data download page">More Info</a> regarding modeling methods and variables.</span>
+        <span class="downloadhint">More infomation regarding modeling process: <a href = "https://gapanalysis.usgs.gov/species/data/download/" title="Link to GAP data download page">https://gapanalysis.usgs.gov/species/data/download/</a></span>
       </div>
     </div>
-    <div class="pagebreak">
+   <div class="pagebreak">
         <h2 >Hapitat Modeling: Map Units</h2>
             {{ modelling_mapunits_pvtable }}
-    <div>
+    <div class="infoline">
         <span class="regioncodes">GP = Great Plains;    NE = Northeast;    NW = Northwest;    SE = Southeast;    SW = Southwest;    UM = Upper Midwest</span>
-        <span class="downloadhint"><a href = "https://gapanalysis.usgs.gov/species/data/download/" title="Link to GAP data download page">More Info</a> regarding modeling methods and variables.</span>
+        <span class="downloadhint">More infomation regarding modeling process: <a href = "https://gapanalysis.usgs.gov/species/data/download/" title="Link to GAP data download page">https://gapanalysis.usgs.gov/species/data/download/</a></span>
     </div>
     </div>
     <div class="pagebreak">

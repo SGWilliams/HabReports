@@ -1,6 +1,6 @@
 body
 {
-font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+font-family: 'Calibri', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 font-size: 12px;
 color: rgb(64,64,64);
 }
@@ -47,24 +47,33 @@ tbody th {
 #mainTitle {
     float: left;
     clear:left;
-    font-size: 40px;
+    font-size: 44px;
     font-weight: normal;
     margin-top: 0px;
 	margin-bottom: 0px;
-	font-family: "Arial Narrow", Arial, sans-serif;
+	font-family: "Calibri", Arial, sans-serif;
     font-stretch: condensed;
     text-transform: uppercase;
 }
 #sppnames {
     float: left;
-	margin-top:0px;
-	margin-bottom:4px;
-    line-height:20px;
+	margin-top: 0px;
+	margin-bottom: 6px;
+    line-height: 20px;
     font-size: 16px;
 }
+.items {
+  display: table;
+  width: 100%;
+}
+.item {
+  display: table-cell;
+}
+
+
 #sppinfo span {
     display:inline-block;
-    margin-right: 20px;
+    margin-right: 96px;
 }
 hr {
     clear:both;
@@ -79,9 +88,10 @@ table.dataTable thead .sorting {
     padding-left: 40px !important;
 }
 #mapDiv {
-    height: 725px; 
-    width: 100%;
-    text-align: center;
+    height: 765px; 
+    width: 990px;
+    float: left;
+    margin-left: 225px;
 }
 #habmap {
     height:100%;
@@ -103,13 +113,15 @@ table.Citations.dataTable tbody td {
 #sppinfo {
     font-size: 12px;
 }
+.infoline {
+    width: max-width;
+}	
 .regioncodes {
     float: left;
-    width: 60%;
+    width: 50%;
 }
 
 .downloadhint {
     float: right;
-    margin-left: 10px;
-    width: 35%;
+    width: 45%;
 }
