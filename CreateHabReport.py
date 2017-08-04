@@ -38,6 +38,8 @@ import pyodbc
 import sys
 from jinja2 import Environment, FileSystemLoader
 import pdfkit
+import time
+
 pd.options.display.max_colwidth = 1000
 headerhtml_file = ''
 
@@ -143,15 +145,25 @@ def processSppReport(spp):
     headerhtml_file.write(headerhtml_out)
     headerhtml_file.close()
     pdfkit_options['header-html'] = 'file:///'+fileDir+spp + '_CONUS_2001v1_SppRpt_Header.html'
+    pdfkit_options['footer-html'] = 'file:///'+fileDir+'HabReportTemplateFooter.html'
 
     template_vars = {                     
                      "title" : "Habitat Model Report Header for "+ spp ,
+                     "common_name": common,
+                     "sci_name": sciname,
+                     "spp": spp,
+                     "itis": itis,
+                     "SBpath": sbpath,
+                     "DOIpath": doipath,
+                     "pdf_css": pdf_css,
                      "modelling_variables_pvtable": var_pivot.to_html(classes='ModelVariables', na_rep=''),
                      "modelling_mapunits_pvtable": mu_pivot.to_html(classes='MapUnits', na_rep=''),
                      "citations_table": citationsList.to_html(classes='Citations', na_rep=''),
                      "map_file": mappath,
                      "pdf_css": pdf_css,
-                     }
+                      "usgs_logo": usgs_logo,
+                      "tadaysdate" : time.strftime("%d/%m/%Y")
+                    }
     html_out = template.render(template_vars)
     html_file = io.open(spp + '_CONUS_2001v1_SppRpt.html',"w")
     html_file.write(html_out)
@@ -172,7 +184,8 @@ Species_con = pyodbc.connect(config['Species_con'])
 WHRdB_con = pyodbc.connect(config['WHRdB_con'])
 AnalDB_con = pyodbc.connect(config['AnalDB_con'])
 
-usgs_logo = '<img src="file:///'+fileDir+'html_files/USGS_ID_green.png" id="usgslogo"/>'
+#usgs_logo = '<img src="file:///'+fileDir+'html_files/USGS_ID_green.png" id="usgslogo"/>'
+usgs_logo = 'file:///'+fileDir+'html_files/USGS_ID_white.png'
 
 env = Environment(loader=FileSystemLoader('.'))
 template = env.get_template("HabReportTemplate.html")
@@ -182,13 +195,12 @@ pdf_css = '<link rel="stylesheet" type="text/css" href="file:///'+fileDir+'html_
 pdfkit_options = {
     'page-size': 'Letter',
     'orientation': 'Landscape',
-    'margin-top': '1.15in',
-    'margin-right': '0.25in',
-    'margin-bottom': '0.35in',
-    'margin-left': '0.25in',
+    'margin-top': '.8in',
+    'margin-right': '0.4in',
+    'margin-bottom': '0.5in',
+    'margin-left': '0.4in',
     'encoding': "UTF-8",
     'no-outline': None,
-    'footer-right': '[page] of [topage]',
     
 }
 

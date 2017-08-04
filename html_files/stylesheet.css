@@ -4,6 +4,28 @@ font-family: 'Calibri', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 
 font-size: 12px;
 color: rgb(0,0,0);
 }
+#usgscolorband {
+    background: #052c49;
+    height: 100px;
+    width: 100%;
+}
+
+#usgsidentifier {
+    height: 90px;
+    float: left;
+    margin-top: 10px;
+    margin-left: 5px
+}
+
+    #usgsidentifier img {
+        height: 80px;
+        border: none;
+    }
+
+#usgslogo {
+    width: 130px;
+    float: left;
+}
 table.dataTable tbody td:first-child {
     text-align: left;
 }
@@ -22,6 +44,7 @@ tr {
     page-break-inside: avoid;
 }
 .pagebreak {
+    margin-top:20px;
     page-break-before: always;
 	clear:both
 }	
@@ -37,14 +60,16 @@ tbody th {
 #DataTables_Table_2 {
     border: 0 !important;
 }
-#headerinfo span {
+/*#headerinfo span {
     display:inline-block;
     margin-right: 20px;
+}*/
+
+#headerinfo h1, #sppnames {
+    display: inline-block;
+    margin-right: 20px;
 }
-#usgslogo {
-    width: 130px;
-    float:left;
-}
+
 #mainTitle {
     float: left;
     clear:left;    

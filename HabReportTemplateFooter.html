@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+	<meta name="pdfkit-page-size" content="Letter"/>
+    <meta name="pdfkit-orientation" content="Landscape"/>
+
+    <title>Hab report footer</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="html_files/stylesheet.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
+
+</head>
+<body >
+    <div style="display: inline-block; text-align:left; width: 48%;">
+        U.S. Department of the Interior <br />
+        U.S. Geological Survey
+    </div>
+    <div style="display: inline-block; text-align:right; width: 48%;">
+        Page <span style="display: inline-block;" id="current_page"></span> of <span style="display: inline-block;" id="page_count"></span>
+    </div>
+    <script type="text/javascript">
+        var pdfInfo = {};
+        var x = document.location.search.substring(1).split('&');
+        for (var i in x) { var z = x[i].split('=', 2); pdfInfo[z[0]] = unescape(z[1]); }
+        function getPdfInfo() {
+            var page = pdfInfo.page || 1;
+            var pageCount = pdfInfo.topage || 1;
+            var date = pdfInfo.date || 1;
+            document.getElementById('current_page').textContent = page;
+            document.getElementById('page_count').textContent = pageCount;
+        }
+        getPdfInfo();
+    </script>
+
+
+</body>
+</html>
