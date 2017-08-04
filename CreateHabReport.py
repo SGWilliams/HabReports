@@ -39,7 +39,7 @@ import sys
 from jinja2 import Environment, FileSystemLoader
 import pdfkit
 pd.options.display.max_colwidth = 1000
-
+headerhtml_file = ''
 
 configFile="modelReport.cfg"
 def get_config_values(configFile): 
@@ -85,12 +85,13 @@ def processSppReport(spp):
     common=speciesList.CommonName[0]
     sciname=speciesList.ScientificName[0]
 
-    sql = " SELECT [strITIScode] as ITIScode, strSbUrlHM as SBpath   FROM GAP_AnalyticDB.dbo.tblTaxa   WHERE strUC = '"+ spp +"'"
+    sql = " SELECT [strITIScode] as ITIScode, strSbUrlHM as SBpath, strDoiHM as DOIpath   FROM GAP_AnalyticDB.dbo.tblTaxa   WHERE strUC = '"+ spp +"'"
     print(sql)
     IdentifiersList = pd.read_sql(sql, AnalDB_con)
     print("Species Info: " + speciesList)
     itis = IdentifiersList.ITIScode[0]
-    sbpath =IdentifiersList.SBpath[0]
+    sbpath = IdentifiersList.SBpath[0]
+    doipath = IdentifiersList.DOIpath[0]
 
     sql = "select strSpeciesModelCode as ModelCode, intLSGapMapCode as MapUnitCode, ysnPres as Present, ysnPresAuxiliary as PresentAuxiliary, right(strSpeciesModelCode, 2) as seasonRegion from WHRdB.dbo.tblSppMapUnitPres where strSpeciesModelCode in (select strSpeciesModelCode from WHRdB.dbo.tblAllSpecies where strUC = '"+ spp +"' and ysnInclude = 1) and (ysnPres = 1 or ysnPresAuxiliary = 1) "
     print(sql)
@@ -126,21 +127,30 @@ def processSppReport(spp):
 
 
     print('Done Loading Tables for spp=' +spp)
-
-    template_vars = {"title" : "Habitat Model Report for "+ spp ,
+    header_template_vars =  {
+                     "title" : "Habitat Model Report Header for "+ spp ,
                      "common_name": common,
                      "sci_name": sciname,
-                     #"federal_status": fs_str,
-                     #"sgcn_states": sgcn_str,
+                     "spp": spp,
+                     "itis": itis,
+                     "SBpath": sbpath,
+                     "DOIpath": doipath,
+                     "pdf_css": pdf_css,
+                     "usgs_logo": usgs_logo,
+                     }
+    headerhtml_out = header_template.render(header_template_vars)
+    headerhtml_file = io.open(spp + '_CONUS_2001v1_SppRpt_Header.html',"w")
+    headerhtml_file.write(headerhtml_out)
+    headerhtml_file.close()
+    pdfkit_options['header-html'] = 'file:///'+fileDir+spp + '_CONUS_2001v1_SppRpt_Header.html'
+
+    template_vars = {                     
+                     "title" : "Habitat Model Report Header for "+ spp ,
                      "modelling_variables_pvtable": var_pivot.to_html(classes='ModelVariables', na_rep=''),
                      "modelling_mapunits_pvtable": mu_pivot.to_html(classes='MapUnits', na_rep=''),
                      "citations_table": citationsList.to_html(classes='Citations', na_rep=''),
-                     "spp": spp,
                      "map_file": mappath,
-                     "itis": itis,
-                     "SBpath": sbpath,
                      "pdf_css": pdf_css,
-                     "usgs_logo": usgs_logo,
                      }
     html_out = template.render(template_vars)
     html_file = io.open(spp + '_CONUS_2001v1_SppRpt.html',"w")
@@ -166,21 +176,25 @@ usgs_logo = '<img src="file:///'+fileDir+'html_files/USGS_ID_green.png" id="usgs
 
 env = Environment(loader=FileSystemLoader('.'))
 template = env.get_template("HabReportTemplate.html")
+header_template = env.get_template("HabReportTemplateHeader.html")
+
 pdf_css = '<link rel="stylesheet" type="text/css" href="file:///'+fileDir+'html_files/stylesheet.css">'
 pdfkit_options = {
     'page-size': 'Letter',
     'orientation': 'Landscape',
-    'margin-top': '0.25in',
+    'margin-top': '1.15in',
     'margin-right': '0.25in',
-    'margin-bottom': '0.25in',
+    'margin-bottom': '0.35in',
     'margin-left': '0.25in',
     'encoding': "UTF-8",
-    'no-outline': None
+    'no-outline': None,
+    'footer-right': '[page] of [topage]',
+    
 }
 
 
 # TODO eventually add loop to process all species from db connection but for now a list
-speciesList=['mABBEx', 'bBOOWx', 'aRHSAx', 'bAMROx', 'aHELLa', 'mGMGSb'][:1]
+speciesList=['bAMROx', 'aAMTOx', 'aRHSAx', 'bBOOWx', 'bAMROx', 'aHELLa', 'mGMGSb'][:1]
 
 # TODO need to add some error handling in case species returns no data in one of the SQL statements and to make sure the connections get closed
 for species in speciesList:

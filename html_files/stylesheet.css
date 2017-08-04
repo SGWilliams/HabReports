@@ -2,7 +2,7 @@ body
 {
 font-family: 'Calibri', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 font-size: 12px;
-color: rgb(64,64,64);
+color: rgb(0,0,0);
 }
 table.dataTable tbody td:first-child {
     text-align: left;
@@ -11,11 +11,11 @@ table.dataTable thead th:first-child {
     text-align: left;
 }
 thead {
-    display: table-header-group
+    display: table-header-group;
 }
 
 tfoot {
-    display: table-row-group
+    display: table-row-group;
 }
 
 tr {
@@ -23,6 +23,7 @@ tr {
 }
 .pagebreak {
     page-break-before: always;
+	clear:both
 }	
 		
  table {
@@ -46,39 +47,51 @@ tbody th {
 }
 #mainTitle {
     float: left;
-    clear:left;
-    font-size: 44px;
-    font-weight: normal;
+    clear:left;    
+	font-family: 'Univers Condensed';
+	font-size: 40px;
+    font-weight: bold;
     margin-top: 0px;
 	margin-bottom: 0px;
-	font-family: "Calibri", Arial, sans-serif;
+	margin-left: 20px;
     font-stretch: condensed;
-    text-transform: uppercase;
+    color: #072c49;
+}
+#sectionName {
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 5px;
+	margin-bottom: 0px;
 }
 #sppnames {
-    float: left;
+    float: right;
 	margin-top: 0px;
 	margin-bottom: 6px;
-    line-height: 20px;
-    font-size: 16px;
+    line-height: 10px;
+    font-size: 18px;
+}
+#comName {
+	font-weight: bold;
+	color: #072c49;
+}
+#sciName {
+	font-style: italic;
 }
 .items {
   display: table;
   width: 100%;
+  margin-left: 20px;
 }
 .item {
   display: table-cell;
 }
-
-
-#sppinfo span {
-    display:inline-block;
-    margin-right: 96px;
-}
 hr {
     clear:both;
     margin-top:10px;
-
+	height: 1px;
+	background-color: #4a7ebb;
+	border: none;
 }
 table.dataTable thead .sorting {
     background-image: none;
@@ -89,9 +102,10 @@ table.dataTable thead .sorting {
 }
 #mapDiv {
     height: 765px; 
-    width: 990px;
-    float: left;
-    margin-left: 225px;
+    width: 700px;
+	float: left;
+    margin-left: 20px;
+	margin-top: 5px;
 }
 #habmap {
     height:100%;
@@ -114,7 +128,8 @@ table.Citations.dataTable tbody td {
     font-size: 12px;
 }
 .infoline {
-    width: max-width;
+    width: 100%;
+    max-width:inherit;
 }	
 .regioncodes {
     float: left;

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+	<meta name="pdfkit-page-size" content="Letter"/>
+    <meta name="pdfkit-orientation" content="Landscape"/>
+
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="html_files/stylesheet.css">
+    {{pdf_css}}
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
+</head>
+<body>
+    <main>
+	<div id="headerinfo">
+		<span><h1 id="mainTitle">Species Habitat Model Report:</h1></span>
+		<span>
+			<div id="sppnames">
+				<div id="comName">{{common_name}}</div>
+				<br />
+				<div id="sciName">{{sci_name}}</div>
+			</div>
+		 </span>
+        </div>
+    </header>
+<hr>		
+    <div class="items">
+		<div class="item"><b>Gap Code: </b> {{spp}}</div>
+        <div class="item"><b>ITIS TSN: </b> {{itis}}</div>
+        <div class="item"><b>Version: </b> CONUS_2001v1</div>
+        <div class="item"><b>DOI Data Link: </b> {{DOIpath}}</div>
+        <div class="item"><b>ScienceBase Data Link: </b> {{SBpath}}</div>
+    </div>
+<hr />
+ </main>
+</body>
+</html>

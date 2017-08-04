@@ -16,17 +16,17 @@
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
     <!--<style type="text/css" >
 
-		thead {display: table-header-group} 
+		thead {display: table-header-group}
 		tfoot {display: table-row-group}
 		tr {
         page-break-inside: avoid;}
-		
-		
-    </style>-->   
+
+
+    </style>-->
     <script>
 
         $(function () {
-            
+
 		mv_dt = $('table.dataframe.ModelVariables').DataTable(
                 {
                     "columnDefs": [
@@ -44,11 +44,11 @@
 					order: [[0, 'asc']],
 					autoWidth: false,
                     paging: false,
-                    
+
                     searching: false,
                     info: false,
                     createdRow: function ( row, data, index ) {
-					
+
                        if ( data[1].replace(/[\$,]/g, '') == 'Distance Into (m)') {
                              $('th', row).eq(0).addClass('center');
                        }
@@ -139,10 +139,31 @@
                 blankrow = mv_dt.row.add(create_row(34, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
                mv_dt.draw();
-           
+
+               $("th:contains('Variable')").parent().hide();
                $("th:contains('ModellingMapUnit')").html("Map Unit");
-			   debugger;
-               $("th:contains('Variable')").parent().hide()
+               $("tr:contains('Map Unit')").css('background-color', 'rgb(230, 230, 230)');
+               var colCount = mu_dt.columns().header().length;
+               var text = '';
+               for (i = 0; i < colCount; i++) {
+                   text += "<th></th>";
+               }
+               $("#DataTables_Table_1 thead").append('<tr role="row"  style="background-color: rgb(160, 160, 160);">' + text + '</tr>');
+			   var anywater = 'No';
+			   if ($("tr:contains('Wet Vegetation'):contains('Yes')").length > 0) {
+                  anywater = 'Yes' ;
+               }
+			   if ($("tr:contains('Flowing Water'):contains('Yes')").length > 0) {
+                  anywater = 'Yes' ;
+               }
+			   if ($("tr:contains('Open/Standing Water'):contains('Yes')").length > 0) {
+                  anywater = 'Yes' ;
+               }
+			   if (anywater == 'Yes') {
+                   $("tr:contains('Wet Vegetation') td:empty, tr:contains('Flowing Water') td:empty, tr:contains('Open/Standing Water') td:empty").html("No");
+			   }
+
+
         });
         function create_row(roworder, varname, cols) {
             var data = [];
@@ -158,47 +179,11 @@
 
 </head>
 <body>
-<!--     <header>
-	    {{usgs_logo}}
-        <h1 id="mainTitle">Species Habitat Model Report</h1>
-        <div id="sppnames">
-            <b>Common Name: </b>{{common_name}}
-			<br />
-            <b>Scientific Name: </b><i>{{sci_name}}</i>
-
-        </div>
-    </header>
-<hr>    
- --><main>
-	<div id="headerinfo">
-		<span>{{usgs_logo}}</span>
-		<span><h1 id="mainTitle">Species Habitat Model Report</h1></span>
-		<span>	<div id="sppnames">
-					<b>{{common_name}}</b>
-					<br />
-					<i>{{sci_name}}</i>
-				</div> </span>
-<hr>		
-<!--     <div id="sppinfo">
-        <span><b>Gap Code: </b> {{spp}}</span>
-        <span><b>ITIS TSN: </b> {{itis}}</span>
-        <span><b>Version: </b> CONUS_2001v1</span>
-        <span><b>ScienceBase Data Link: </b> {{SBpath}}</span>
- --><!--        <span style="width:50%"><b>Federal Status: </b>{{federal_status}}</span>
-        <span style="width:50%"><b>SGCN States: </b>{{sgcn_states}}</span> -->
-    <div class="items">
-		<div class="item"><b>Gap Code: </b> {{spp}}</div>
-        <div class="item"><b>ITIS TSN: </b> {{itis}}</div>
-        <div class="item"><b>Version: </b> CONUS_2001v1</div>
-        <div class="item"><b>ScienceBase Data Link: </b> {{SBpath}}</div>
-<!--        <span style="width:50%"><b>Federal Status: </b>{{federal_status}}</span>
-        <span style="width:50%"><b>SGCN States: </b>{{sgcn_states}}</span> -->
-    </div>
-<hr>		
-    <div style="clear:both;">
-        <h2>Map of Predicted Habitat</h2>
+    <main>
+    <div>
+        <div id="sectionName">Map of Predicted Habitat</div>
         <div id="mapDiv">{{map_file}}
-        </div>		
+        </div>
     </div>
     <div class="pagebreak">
         <h2 >Habitat Modeling: Ancillary Parameters</h2>
@@ -209,7 +194,7 @@
       </div>
     </div>
    <div class="pagebreak">
-        <h2 >Hapitat Modeling: Map Units</h2>
+        <h2 >Habitat Modeling: Map Units</h2>
             {{ modelling_mapunits_pvtable }}
     <div class="infoline">
         <span class="regioncodes">GP = Great Plains;    NE = Northeast;    NW = Northwest;    SE = Southeast;    SW = Southwest;    UM = Upper Midwest</span>
