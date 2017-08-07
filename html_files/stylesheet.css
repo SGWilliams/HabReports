@@ -9,19 +9,16 @@ color: rgb(0,0,0);
     height: 100px;
     width: 100%;
 }
-
 #usgsidentifier {
     height: 90px;
     float: left;
     margin-top: 10px;
     margin-left: 5px
 }
-
-    #usgsidentifier img {
+#usgsidentifier img {
         height: 80px;
         border: none;
-    }
-
+}
 #usgslogo {
     width: 130px;
     float: left;
@@ -35,11 +32,9 @@ table.dataTable thead th:first-child {
 thead {
     display: table-header-group;
 }
-
 tfoot {
     display: table-row-group;
 }
-
 tr {
     page-break-inside: avoid;
 }
@@ -48,36 +43,34 @@ tr {
     page-break-before: always;
 	clear:both
 }	
-		
- table {
+table {
      width:100%;
- }
+}
 tbody th {
     text-align: left;
 }
-.Citations tr { border: none;  }
-
+.Citations tr { 
+	border: none;  
+}
 #DataTables_Table_2 {
     border: 0 !important;
 }
-/*#headerinfo span {
-    display:inline-block;
-    margin-right: 20px;
-}*/
-
-#headerinfo h1, #sppnames {
+#sppnames {
     display: inline-block;
-    margin-right: 20px;
+    margin-left: 20px;
+	margin-top: 20px;
+	margin-bottom: 0px;
+    line-height: 10px;
+    font-size: 18px;
 }
-
 #mainTitle {
     float: left;
     clear:left;    
 	font-family: 'Univers Condensed';
 	font-size: 40px;
     font-weight: bold;
-    margin-top: 0px;
-	margin-bottom: 0px;
+    margin-top: 10px;
+	margin-bottom: 10px;
 	margin-left: 20px;
     font-stretch: condensed;
     color: #072c49;
@@ -88,13 +81,6 @@ tbody th {
     font-weight: bold;
     margin-top: 5px;
 	margin-bottom: 0px;
-}
-#sppnames {
-    float: right;
-	margin-top: 0px;
-	margin-bottom: 6px;
-    line-height: 10px;
-    font-size: 18px;
 }
 #comName {
 	font-weight: bold;
@@ -120,7 +106,6 @@ hr {
 }
 table.dataTable thead .sorting {
     background-image: none;
-    
 }
 .center {
     padding-left: 40px !important;
@@ -129,8 +114,8 @@ table.dataTable thead .sorting {
     height: 765px; 
     width: 700px;
 	float: left;
-    margin-left: 20px;
 	margin-top: 5px;
+	margin-left: 195px;
 }
 #habmap {
     height:100%;
@@ -160,8 +145,8 @@ table.Citations.dataTable tbody td {
     float: left;
     width: 50%;
 }
-
 .downloadhint {
     float: right;
-    width: 45%;
+    width: 50%;
+	text-align: right;
 }

@@ -142,7 +142,7 @@
 
                $("th:contains('Variable')").parent().hide();
                $("th:contains('ModellingMapUnit')").html("Map Unit");
-               $("tr:contains('Map Unit')").css('background-color', 'rgb(230, 230, 230)');
+               $("tr:contains('Map Unit')").css('background-color', 'rgb(255, 255, 255)');
                var colCount = mu_dt.columns().header().length;
                var text = '';
                for (i = 0; i < colCount; i++) {
@@ -180,11 +180,9 @@
 </head>
 <body>
     <main>
-    <div>
-        <div id="sectionName">Map of Predicted Habitat</div>
-        <div id="mapDiv">{{map_file}}
-        </div>
-    </div>
+    <h2>Map of Predicted Habitat</h2>
+<!--        <div id="sectionName">Map of Predicted Habitat</div> -->
+    <div id="mapDiv">{{map_file}}</div>
     <div class="pagebreak">
         <h2 >Habitat Modeling: Ancillary Parameters</h2>
         {{ modelling_variables_pvtable }}
