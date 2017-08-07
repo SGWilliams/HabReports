@@ -14,19 +14,11 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-    <!--<style type="text/css" >
-
-		thead {display: table-header-group}
-		tfoot {display: table-row-group}
-		tr {
-        page-break-inside: avoid;}
-
-
-    </style>-->
+ 
     <script>
 
         $(function () {
-
+            
 		mv_dt = $('table.dataframe.ModelVariables').DataTable(
                 {
                     "columnDefs": [
@@ -44,11 +36,11 @@
 					order: [[0, 'asc']],
 					autoWidth: false,
                     paging: false,
-
+                    
                     searching: false,
                     info: false,
                     createdRow: function ( row, data, index ) {
-
+					
                        if ( data[1].replace(/[\$,]/g, '') == 'Distance Into (m)') {
                              $('th', row).eq(0).addClass('center');
                        }
@@ -139,7 +131,7 @@
                 blankrow = mv_dt.row.add(create_row(34, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
                mv_dt.draw();
-
+           
                $("th:contains('Variable')").parent().hide();
                $("th:contains('ModellingMapUnit')").html("Map Unit");
                $("tr:contains('Map Unit')").css('background-color', 'rgb(230, 230, 230)');
@@ -151,13 +143,13 @@
                $("#DataTables_Table_1 thead").append('<tr role="row"  style="background-color: rgb(160, 160, 160);">' + text + '</tr>');
 			   var anywater = 'No';
 			   if ($("tr:contains('Wet Vegetation'):contains('Yes')").length > 0) {
-                  anywater = 'Yes' ;
+                  anywater = 'Yes' ; 
                }
 			   if ($("tr:contains('Flowing Water'):contains('Yes')").length > 0) {
-                  anywater = 'Yes' ;
+                  anywater = 'Yes' ; 
                }
 			   if ($("tr:contains('Open/Standing Water'):contains('Yes')").length > 0) {
-                  anywater = 'Yes' ;
+                  anywater = 'Yes' ; 
                }
 			   if (anywater == 'Yes') {
                    $("tr:contains('Wet Vegetation') td:empty, tr:contains('Flowing Water') td:empty, tr:contains('Open/Standing Water') td:empty").html("No");
@@ -178,13 +170,50 @@
     </script>
 
 </head>
-<body>
-    <main>
-    <div>
-        <div id="sectionName">Map of Predicted Habitat</div>
-        <div id="mapDiv">{{map_file}}
-        </div>
-    </div>
+<body style="border:0;margin:0;">
+
+   <main>
+   <div id="coverpage"></div>
+   	    <div id="usgscolorband">
+		
+            <div id="usgsidentifier">
+                <a href="http://www.usgs.gov/" title="U.S. Geological Survey Home Page">
+                    <img src={{usgs_logo}} alt="USGS - science for a changing world"
+                        title="U.S. Geological Survey Home Page" width="178" height="72" /></a></div>
+      
+		</div>
+        <h1 id="coverTitle">Species Habitat Model Report: <br />
+            <b></b>{{common_name}}
+			<br />
+            <b></b><i>{{sci_name}}</i>
+		<br />
+		</h1>
+
+    <div style = "float:left; clear:both; font-size:20px"> 
+	<b>Gap Code: </b> {{spp}} <br />
+	<b>ITIS TSN: </b> {{itis}} <br />
+	<b>Version: </b> CONUS_2001v1 <br /> 
+	<b>DOI Data Link: </b> {{DOIpath}} <br />
+	<b>ScienceBase Data Link: </b> {{SBpath}} <br /><br />
+	<b>Date Generated: </b> {{tadaysdate}} <br />
+	</div>
+    <div style = "float:left; clear:both; font-size:20px"> SOME KIND OF CITATION <br /></div>
+    <div style = "float:left; clear:both; font-size:20px"> OTHER INFORMATION? <br /></div>
+	
+ 
+
+   
+   
+       <div class="pagebreak">
+
+
+           <div style="clear:both;">
+               <h2>Map of Predicted Habitat</h2>
+               <div id="mapDiv">
+                   {{map_file}}
+               </div>
+           </div>
+       </div>
     <div class="pagebreak">
         <h2 >Habitat Modeling: Ancillary Parameters</h2>
         {{ modelling_variables_pvtable }}
