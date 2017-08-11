@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -171,73 +171,88 @@
 
 </head>
 <body style="border:0;margin:0;">
-    <main>
+<main>
 
-        <div id="coverpage"></div>
-        <div id="usgscolorband">
+<div id="coverpage"></div>
+<div id="usgscolorband">
+    <div id="usgsidentifier">
+        <a href="http://www.usgs.gov/" title="U.S. Geological Survey Home Page">
+            <img src={{usgs_logo}} alt="USGS - science for a changing world"
+                title="U.S. Geological Survey Home Page"/>
+        </a>
+    </div>
+</div>
 
-            <div id="usgsidentifier">
-                <a href="http://www.usgs.gov/" title="U.S. Geological Survey Home Page">
-                    <img src={{usgs_logo}} alt="USGS - science for a changing world"
-                         title="U.S. Geological Survey Home Page" width="178" height="72" />
-                </a>
-            </div>
-
-        </div>
-        <h1 id="coverTitle">
-            Species Habitat Model Report: <br />
-            <b></b>{{common_name}}
-            <br />
-            <b></b><i>{{sci_name}}</i>
-            <br />
-        </h1>
-
-        <div style="float:left; clear:both; font-size:20px">
-            <b>Gap Code: </b> {{spp}} <br />
-            <b>ITIS TSN: </b> {{itis}} <br />
-            <b>Version: </b> CONUS_2001v1 <br />
-            <b>DOI Data Link: </b> {{DOIpath}} <br />
-            <b>ScienceBase Data Link: </b> {{SBpath}} <br /><br />
-            <b>Date Generated: </b> {{tadaysdate}} <br />
-        </div>
-        <div style="float:left; clear:both; font-size:20px"> SOME KIND OF CITATION <br /></div>
-        <div style="float:left; clear:both; font-size:20px"> OTHER INFORMATION? <br /></div>
+<h1 id="mainTitle">Species Habitat Model Report:</h1>
+<div id="comNameCP">{{common_name}}</div>
+<div id="sciNameCP">{{sci_name}}</div>
+<div id="coverInfo">
+    <b>Gap Analysis Program Species Code: </b> {{spp}} <br />
+    <b>Integrated Taxonomic Information System TSN: </b> {{itis}} <br />
+	<br />
+    <b>Version: </b> CONUS_2001v1 <br />
+	<b>Model Editor(s): </b> Matt Rubino, Jeff Lonneker <br />
+	<b>Model Reviewer(s): </b> Nathan Tarr <br />
+	<br />
+    <b>DOI Data Link: </b> {{DOIpath}} <br />
+    <b>ScienceBase Data Link: </b> {{SBpath}} <br />
+	<br />
+	<b>Date Report Generated: </b> {{tadaysdate}} <br />
+	<br />
+<!-- 	SOME KIND OF CITATION <br />
+	OTHER INFORMATION? <br /> -->
+</div>
          
-
-
-
-
-        <div class="pagebreak">
-
-
-            <div style="clear:both;">
-                <h2>Map of Predicted Habitat</h2>
-                <div id="mapDiv">
-                    {{map_file}}
-                </div>
-            </div>
+<div class="pageBreak">
+	<div style="clear:both;">
+        <h2>Map of Predicted Habitat</h2>
+        <div id="mapDiv">
+            {{map_file}}
         </div>
+    </div>
+</div>
 
-    <div class="pagebreak">
-        <h2 >Habitat Modeling: Ancillary Parameters</h2>
-        {{ modelling_variables_pvtable }}
-      <div>
-        <span class="regioncodes">GP = Great Plains;    NE = Northeast;    NW = Northwest;    SE = Southeast;    SW = Southwest;    UM = Upper Midwest</span>
-        <span class="downloadhint">More infomation regarding modeling process: <a href = "https://gapanalysis.usgs.gov/species/data/download/" title="Link to GAP data download page">https://gapanalysis.usgs.gov/species/data/download/</a></span>
-      </div>
+<div class="pageBreak">
+	<h2>Habitat Modeling: Ancillary Parameters</h2>
+	{{ modelling_variables_pvtable }}
+    <div>
+		<span class="regionCodes">
+			GP = Great Plains;
+			NE = Northeast;
+			NW = Northwest;
+			SE = Southeast;
+			SW = Southwest;
+			UM = Upper Midwest
+		</span>
+        <span class="downloadHint">
+			More infomation regarding modeling process: https://gapanalysis.usgs.gov/species/data/download/
+		</span>
     </div>
-   <div class="pagebreak">
-        <h2 >Habitat Modeling: Map Units</h2>
-            {{ modelling_mapunits_pvtable }}
-    <div class="infoline">
-        <span class="regioncodes">GP = Great Plains;    NE = Northeast;    NW = Northwest;    SE = Southeast;    SW = Southwest;    UM = Upper Midwest</span>
-        <span class="downloadhint">More infomation regarding modeling process: <a href = "https://gapanalysis.usgs.gov/species/data/download/" title="Link to GAP data download page">https://gapanalysis.usgs.gov/species/data/download/</a></span>
+</div>
+
+<div class="pageBreak">
+	<h2 >Habitat Modeling: Map Units</h2>
+	{{ modelling_mapunits_pvtable }}
+    <div class="infoLine">
+        <span class="regionCodes">
+			GP = Great Plains;
+			NE = Northeast;
+			NW = Northwest;
+			SE = Southeast;
+			SW = Southwest;
+			UM = Upper Midwest
+		</span>
+        <span class="downloadHint">
+			More infomation regarding modeling process: https://gapanalysis.usgs.gov/species/data/download/
+		</span>
     </div>
-    </div>
-    <div class="pagebreak">
+</div>
+
+<div class="pageBreak">
         <h2>Citations</h2>
             {{ citations_table }}
-    </div>
-	</main>
+</div>
+
+</main>
 </body>
 </html>
