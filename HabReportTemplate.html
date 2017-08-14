@@ -104,16 +104,6 @@
                         {
                             "targets": [0],
                             "visible": false,
-                        },
-                        {
-                            "targets": [1],
-                            "width": '50px',
-							"classname": "rowheader"
-                        },
-                        {
-                            "targets": [2],
-                            "width": '50px',
-							"classname": "rowheader"
                         }
                     ],
                     autoWidth: false,
@@ -122,32 +112,8 @@
                     searching: false,
                     info: false
                 });
-         rvs_dt = $('table.dataframe.Reviewers').DataTable(
-                {
-                    "columnDefs": [
-                        {
-                            "targets": [0],
-                            "visible": false,
-                        },
-                        {
-                            "targets": [1],
-                            "width": '50px',
-							"classname": "rowheader"
-                        },
-                        {
-                            "targets": [2],
-                            "width": '50px',
-							"classname": "rowheader"
-                        }
-                    ],
-                    autoWidth: false,
-                    paging: false,
-                    ordering: false,
-                    searching: false,
-                    info: false
-                });
+
          $('table.dataframe.Editors').attr('border', '0');
-         $('table.dataframe.Reviewers').attr('border', '0');
 
 				$('table.dataframe.Citations').attr('border', '0');
                 $(".sorting, .sorting_asc, .sorting_desc").unbind('click');
@@ -242,13 +208,10 @@
     <b>Gap Analysis Program Species Code: </b> {{spp}} <br />
     <b>Integrated Taxonomic Information System TSN: </b> {{itis}} <br />
 	<br />
-    <b>Version: </b> CONUS_2001v1 <br />
-	<b>Model Editor(s): </b> 
+    <b>Version: </b> CONUS_2001v1 <br /><br />
+	<b>Model Creation: </b> 
 	{{editors}}
-	<!--Matt Rubino, Jeff Lonneker--> <br />
-	<b>Model Reviewer(s): </b> 
-	{{reviewers}}
-	<!--Nathan Tarr--> <br />
+ <br />
 	<br />
     <b>DOI Data Link: </b> {{DOIpath}} <br />
     <b>ScienceBase Data Link: </b> {{SBpath}} <br />

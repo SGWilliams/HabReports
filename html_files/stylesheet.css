@@ -30,15 +30,16 @@ table.dataTable tbody td:first-child {
 table.dataTable thead th:first-child {
     text-align: left;
 }
-table.Editors.dataTable tbody td:first-child, table.Reviewers.dataTable tbody td:first-child {
-    width: 70px !important;
+table.Editors.dataTable tbody td:first-child {
+    /*width: 70px !important;*/
     font-weight: bold;
-}
-table.Editors.dataTable tbody td, table.Reviewers.dataTable tbody td {
-    width: 200px;
     text-align: left;
 }
-table.Editors.dataTable.no-footer, table.Reviewers.dataTable.no-footer {
+table.Editors.dataTable tbody td {
+    width: 200px;
+    text-align: center;
+}
+table.Editors.dataTable.no-footer {
     border-bottom: none;
     margin-left: 10px;
 }
@@ -54,9 +55,9 @@ table.Editors.dataTable, table.Reviewers.dataTable {
     width: 650px;
 }
 
-#DataTables_Table_3 thead, #DataTables_Table_4 thead {
+/*#DataTables_Table_3 thead, #DataTables_Table_4 thead {
     display: none;
-}
+}*/
 thead {
     display: table-header-group;
 }

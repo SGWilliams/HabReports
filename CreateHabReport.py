@@ -79,15 +79,15 @@ def processSppReport(spp):
 
     mappath = '<img src="file:///'+fileDir+'maps/'+spp+'_CONUS_HabMap_2001v1.png" id="habmap"/>'
 
-    sql = "WITH t AS (SELECT LEFT(RIGHT(strSpeciesModelCode, 2), 1) AS seas, RIGHT(RIGHT(strSpeciesModelCode, 2), 1) AS region, whoEditingComplete, whoInternalReviewComplete, strUC FROM tblModelStatus WHERE (strUC = '"+ spp +"') AND RIGHT(RIGHT(strSpeciesModelCode, 2), 1) IN('1','2','3','4','5','6','7','8','9') ), s as (SELECT CASE seas WHEN 'w' THEN 'Winter' WHEN 's' THEN 'Summer' WHEN 'y' THEN 'Year-Round' END AS season, tblRegionDef.strRegionName as region, t_1.whoEditingComplete, t_1.whoInternalReviewComplete FROM t AS t_1 INNER JOIN tblRegionDef ON t_1.region = tblRegionDef.intRegionCode) SELECT season + ' ' + region + ':' as Submodel , whoEditingComplete as Editor from s  ORDER BY Submodel"
+    sql = "WITH t AS (SELECT LEFT(RIGHT(strSpeciesModelCode, 2), 1) AS seas, RIGHT(RIGHT(strSpeciesModelCode, 2), 1) AS region, whoEditingComplete, whoInternalReviewComplete, strUC FROM tblModelStatus WHERE (strUC = '"+ spp +"') AND RIGHT(RIGHT(strSpeciesModelCode, 2), 1) IN('1','2','3','4','5','6','7','8','9') ), s as (SELECT CASE seas WHEN 'w' THEN 'Winter' WHEN 's' THEN 'Summer' WHEN 'y' THEN 'Year-Round' END AS season, tblRegionDef.strRegionName as region, t_1.whoEditingComplete, t_1.whoInternalReviewComplete FROM t AS t_1 INNER JOIN tblRegionDef ON t_1.region = tblRegionDef.intRegionCode) SELECT season + ' ' + region + ':' as Submodel , whoEditingComplete as 'Model Editor(s)',  whoInternalReviewComplete as 'Model Reviewer(s)' from s  ORDER BY Submodel"
     print(sql)
     EditorsTable = pd.read_sql(sql, WHRdB_con)
     print("Editor Info: " + EditorsTable)
 
-    sql = "WITH t AS (SELECT LEFT(RIGHT(strSpeciesModelCode, 2), 1) AS seas, RIGHT(RIGHT(strSpeciesModelCode, 2), 1) AS region, whoEditingComplete, whoInternalReviewComplete, strUC FROM tblModelStatus WHERE (strUC = '"+ spp +"') AND RIGHT(RIGHT(strSpeciesModelCode, 2), 1) IN('1','2','3','4','5','6','7','8','9') ), s as (SELECT CASE seas WHEN 'w' THEN 'Winter' WHEN 's' THEN 'Summer' WHEN 'y' THEN 'Year-Round' END AS season, tblRegionDef.strRegionName as region, t_1.whoEditingComplete, t_1.whoInternalReviewComplete FROM t AS t_1 INNER JOIN tblRegionDef ON t_1.region = tblRegionDef.intRegionCode) SELECT season + ' ' + region + ':' as Submodel ,  whoInternalReviewComplete as Reviewer  from s  ORDER BY Submodel"
-    print(sql)
-    ReviewersTable = pd.read_sql(sql, WHRdB_con)
-    print("Reviewer Info: " + ReviewersTable)
+    #sql = "WITH t AS (SELECT LEFT(RIGHT(strSpeciesModelCode, 2), 1) AS seas, RIGHT(RIGHT(strSpeciesModelCode, 2), 1) AS region, whoEditingComplete, whoInternalReviewComplete, strUC FROM tblModelStatus WHERE (strUC = '"+ spp +"') AND RIGHT(RIGHT(strSpeciesModelCode, 2), 1) IN('1','2','3','4','5','6','7','8','9') ), s as (SELECT CASE seas WHEN 'w' THEN 'Winter' WHEN 's' THEN 'Summer' WHEN 'y' THEN 'Year-Round' END AS season, tblRegionDef.strRegionName as region, t_1.whoEditingComplete, t_1.whoInternalReviewComplete FROM t AS t_1 INNER JOIN tblRegionDef ON t_1.region = tblRegionDef.intRegionCode) SELECT season + ' ' + region + ':' as Submodel ,  whoInternalReviewComplete as Reviewer  from s  ORDER BY Submodel"
+    #print(sql)
+    #ReviewersTable = pd.read_sql(sql, WHRdB_con)
+    #print("Reviewer Info: " + ReviewersTable)
 
     sql = "select strCommonName as CommonName, strFullSciName as ScientificName, RTRIM(strModelStatus) as ModelStatus from Species_Database.dbo.tblAllSpecies where strUniqueID = '"+ spp +"'"
     print(sql)
@@ -174,8 +174,7 @@ def processSppReport(spp):
                      "pdf_css": pdf_css,
                       "usgs_logo": usgs_logo,
                       "tadaysdate" : time.strftime("%d/%m/%Y"),
-                      "editors" : EditorsTable.to_html(classes='Editors', na_rep=''),
-                      "reviewers" : ReviewersTable.to_html(classes='Reviewers', na_rep='')
+                      "editors" : EditorsTable.to_html(classes='Editors', na_rep='')
                     }
     html_out = template.render(template_vars)
     html_file = io.open(spp + '_CONUS_2001v1_SppRpt.html',"w")
@@ -219,7 +218,7 @@ pdfkit_options = {
 
 
 # TODO eventually add loop to process all species from db connection but for now a list
-speciesList=['bOSPRx','bAMROx', 'aAMTOx', 'aRHSAx', 'bBOOWx', 'bAMROx', 'aHELLa', 'mGMGSb'][:1]
+speciesList=['bAMKEx', 'bOSPRx','aAMTOx', 'aRHSAx', 'bBOOWx', 'bAMROx', 'aHELLa', 'mGMGSb'][:1]
 
 # TODO need to add some error handling in case species returns no data in one of the SQL statements and to make sure the connections get closed
 for species in speciesList:
