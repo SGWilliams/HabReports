@@ -18,8 +18,7 @@
     <script>
 
         $(function () {
-
-		mv_dt = $('table.dataframe.ModelVariables').DataTable(
+		mv_dt = $('table.dataframe.ModelVariables').DataTable( 
                 {
                     "columnDefs": [
                         {
@@ -99,6 +98,23 @@
                     searching: false,
                     info: false
                 });
+		eds_dt = $('table.dataframe.Editors').DataTable(
+                {
+                    "columnDefs": [
+                        {
+                            "targets": [0],
+                            "visible": false,
+                        }
+                    ],
+                    autoWidth: false,
+                    paging: false,
+                    ordering: false,
+                    searching: false,
+                    info: false
+                });
+
+         $('table.dataframe.Editors').attr('border', '0');
+
 				$('table.dataframe.Citations').attr('border', '0');
                 $(".sorting, .sorting_asc, .sorting_desc").unbind('click');
                 cols = mv_dt.columns()[0].length;
@@ -129,6 +145,8 @@
                 var elevrow = mv_dt.row.add(create_row(31, 'Elevation Limits', cols)).draw().node();
                 $( elevrow ).css( 'font-weight', 'bold' );
                 blankrow = mv_dt.row.add(create_row(34, '', cols)).draw().node();
+                $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
+                blankrow = mv_dt.row.add(create_row(36, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
                mv_dt.draw();
 
@@ -190,9 +208,10 @@
     <b>Gap Analysis Program Species Code: </b> {{spp}} <br />
     <b>Integrated Taxonomic Information System TSN: </b> {{itis}} <br />
 	<br />
-    <b>Version: </b> CONUS_2001v1 <br />
-	<b>Model Editor(s): </b> Matt Rubino, Jeff Lonneker <br />
-	<b>Model Reviewer(s): </b> Nathan Tarr <br />
+    <b>Version: </b> CONUS_2001v1 <br /><br />
+	<b>Model Creation: </b> 
+	{{editors}}
+ <br />
 	<br />
     <b>DOI Data Link: </b> {{DOIpath}} <br />
     <b>ScienceBase Data Link: </b> {{SBpath}} <br />
