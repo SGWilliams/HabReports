@@ -24,6 +24,9 @@ color: rgb(0,0,0);
     width: 130px;
     float: left;
 }
+table.dataTable {
+    border-collapse: collapse;
+} 
 table.dataTable tbody td:first-child {
     text-align: left;
 }
@@ -54,7 +57,12 @@ table.Editors.dataTable tbody tr, table.Reviewers.dataTable tbody tr {
 table.Editors.dataTable, table.Reviewers.dataTable {
     width: 650px;
 }
-
+#DataTables_Table_3 th:first-child {
+  text-align: left;
+}
+#DataTables_Table_3 th {
+  text-align: center;
+}
 /*#DataTables_Table_3 thead, #DataTables_Table_4 thead {
     display: none;
 }*/
