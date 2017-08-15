@@ -34,8 +34,16 @@ table.dataTable thead th:first-child {
     text-align: left;
 }
 table.Editors.dataTable tbody td:first-child {
-    /*width: 70px !important;*/
     font-weight: bold;
+    text-align: left;
+
+}
+table.HandModel.dataTable tbody td:first-child {
+    font-weight: bold;
+    text-align: left;
+    width: 150px;
+}
+table.HandModel.dataTable tbody td {
     text-align: left;
 }
 table.Editors.dataTable tbody td {
@@ -54,14 +62,15 @@ table.Editors.dataTable tbody tr, table.Reviewers.dataTable tbody tr {
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
 }
-table.Editors.dataTable, table.Reviewers.dataTable {
+table.Editors.dataTable {
     width: 650px;
 }
-#DataTables_Table_3 th:first-child {
-  text-align: left;
+#DataTables_Table_3 th:first-child, #DataTables_Table_4 th:first-child {
+    text-align: left;
+    font-weight:bold;
 }
-#DataTables_Table_3 th {
-  text-align: center;
+#DataTables_Table_3 th, #DataTables_Table_4 th {
+    text-align: center;
 }
 /*#DataTables_Table_3 thead, #DataTables_Table_4 thead {
     display: none;
@@ -89,8 +98,12 @@ tbody th {
 .Citations tr { 
 	border: none;  
 }
-#DataTables_Table_2 {
+#DataTables_Table_2, #DataTables_Table_4 {
     border: 0 !important;
+}
+table.HandModel.dataTable tbody td, table.Citations.dataTable tbody td {
+    padding: 2px;
+    font-size: 12px;
 }
 #sppNames {
     display: inline-block;

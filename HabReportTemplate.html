@@ -105,7 +105,21 @@
                             "targets": [0],
                             "visible": false,
                         }
-                    ],
+                    ], 
+                    autoWidth: false,
+                    paging: false,
+                    ordering: false,
+                    searching: false,
+                    info: false
+                });
+		hm_dt = $('table.dataframe.HandModel').DataTable(
+                {
+                    "columnDefs": [
+                        {
+                            "targets": [0],
+                            "visible": false,
+                        }
+                ], 
                     autoWidth: false,
                     paging: false,
                     ordering: false,
@@ -114,6 +128,7 @@
                 });
 
          $('table.dataframe.Editors').attr('border', '0');
+         $('table.dataframe.HandModel').attr('border', '0');
 
 				$('table.dataframe.Citations').attr('border', '0');
                 $(".sorting, .sorting_asc, .sorting_desc").unbind('click');
@@ -172,6 +187,10 @@
 			   if (anywater == 'Yes') {
                    $("tr:contains('Wet Vegetation') td:empty, tr:contains('Flowing Water') td:empty, tr:contains('Open/Standing Water') td:empty").html("No");
 			   }
+
+			   if (!$("tr:contains('Hand Modeled'):contains('Yes')").length > 0) {
+                 $( "#handModelDiv" ).css( 'display', 'none' );
+               }
 
 
         });
@@ -246,6 +265,11 @@
 			More infomation regarding modeling process: https://gapanalysis.usgs.gov/species/data/download/
 		</span>
     </div>
+</div>
+
+<div id="handModelDiv" class="pageBreak">
+        <h2>Hand Modeling Comments</h2>
+            {{ handmodel_table }}
 </div>
 
 <div class="pageBreak">
