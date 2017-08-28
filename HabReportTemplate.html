@@ -46,10 +46,7 @@
                        if ( data[1].replace(/[\$,]/g, '') == 'Distance From (m)') {
                              $('th', row).eq(0).addClass('center');
                        }
-                       if ( data[1].replace(/[\$,]/g, '') == 'Minimum (m)') {
-                             $('th', row).eq(0).addClass('center');
-                       }
-                        if ( data[1].replace(/[\$,]/g, '') == 'Maximum (m)') {
+                       if ( data[1].replace(/[\$,]/g, '') == 'Distance From Primary Map Units (m)') {
                              $('th', row).eq(0).addClass('center');
                        }
                        if ( data[1].replace(/[\$,]/g, '') == 'Minimum Size (ha)') {
@@ -75,29 +72,29 @@
                        }
                    }
                 });
-            mu_dt = $('table.dataframe.MapUnits').DataTable(
-                {
-					autoWidth: false,
-                    paging: false,
-                    ordering: false,
-                    searching: false,
-                    info: false
-                });
-            cit_dt = $('table.dataframe.Citations').DataTable(
-                {
-                    "columnDefs": [
-                        {
-                            "targets": [0],
-                            "visible": false,
-                        }
-                    ],
-                    classname: "compact",
-					autoWidth: false,
-					paging: false,
-                    ordering: false,
-                    searching: false,
-                    info: false
-                });
+        mu_dt = $('table.dataframe.MapUnits').DataTable(
+            {
+				autoWidth: false,
+                paging: false,
+                ordering: false,
+                searching: false,
+                info: false
+            });
+        cit_dt = $('table.dataframe.Citations').DataTable(
+            {
+                "columnDefs": [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                    }
+                ],
+                classname: "compact",
+				autoWidth: false,
+				paging: false,
+                ordering: false,
+                searching: false,
+                info: false
+            });
 		eds_dt = $('table.dataframe.Editors').DataTable(
                 {
                     "columnDefs": [
@@ -127,11 +124,11 @@
                     info: false
                 });
 
-         $('table.dataframe.Editors').attr('border', '0');
-         $('table.dataframe.HandModel').attr('border', '0');
-
+				$('table.dataframe.Editors').attr('border', '0');
+				$('table.dataframe.HandModel').attr('border', '0');
 				$('table.dataframe.Citations').attr('border', '0');
-                $(".sorting, .sorting_asc, .sorting_desc").unbind('click');
+				$(".sorting, .sorting_asc, .sorting_desc").unbind('click');
+
                 cols = mv_dt.columns()[0].length;
                 var blankrow = mv_dt.row.add(create_row(1, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
@@ -142,26 +139,28 @@
                 blankrow = mv_dt.row.add(create_row(8, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(230, 230, 230)' );
 	            blankrow = mv_dt.row.add(create_row(11, '', cols)).draw().node();
+                $( blankrow ).css( 'background-color', 'rgb(230, 230, 230)' );				
+                headerrow = mv_dt.row.add(create_row(12, 'Secondary Map Units', cols)).draw().node();
+                $( headerrow ).css( 'font-weight', 'bold' );
+	            blankrow = mv_dt.row.add(create_row(14, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
-                headerrow = mv_dt.row.add(create_row(12, 'Hydrographic Limitations', cols)).draw().node();
+                headerrow = mv_dt.row.add(create_row(15, 'Hydrographic Limitations', cols)).draw().node();
                 $( headerrow ).css( 'font-weight', 'bold' ).css( 'font-style', 'italic' ).css( 'background-color', 'rgb(175, 214, 254)' );
-                blankrow = mv_dt.row.add(create_row(16, '', cols)).draw().node();
+                blankrow = mv_dt.row.add(create_row(19, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(230, 230, 230)' );
-                blankrow = mv_dt.row.add(create_row(20, '', cols)).draw().node();
+                blankrow = mv_dt.row.add(create_row(23, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(230, 230, 230)' );
-                blankrow = mv_dt.row.add(create_row(24, '', cols)).draw().node();
+                blankrow = mv_dt.row.add(create_row(27, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
-                blankrow = mv_dt.row.add(create_row(26, '', cols)).draw().node();
+                blankrow = mv_dt.row.add(create_row(29, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
-                blankrow = mv_dt.row.add(create_row(28, '', cols)).draw().node();
+                blankrow = mv_dt.row.add(create_row(31, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
-	            blankrow = mv_dt.row.add(create_row(30, '', cols)).draw().node();
+	            blankrow = mv_dt.row.add(create_row(33, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
-                var elevrow = mv_dt.row.add(create_row(31, 'Elevation Limits', cols)).draw().node();
-                $( elevrow ).css( 'font-weight', 'bold' );
-                blankrow = mv_dt.row.add(create_row(34, '', cols)).draw().node();
+                 blankrow = mv_dt.row.add(create_row(36, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
-                blankrow = mv_dt.row.add(create_row(36, '', cols)).draw().node();
+                blankrow = mv_dt.row.add(create_row(38, '', cols)).draw().node();
                 $( blankrow ).css( 'background-color', 'rgb(160, 160, 160)' );
                mv_dt.draw();
 

@@ -69,8 +69,11 @@ table.Editors.dataTable {
     text-align: left;
     font-weight:bold;
 }
-#DataTables_Table_3 th, #DataTables_Table_4 th {
+#DataTables_Table_3 th {
     text-align: center;
+}
+#DataTables_Table_4 th {
+    text-align: left;
 }
 /*#DataTables_Table_3 thead, #DataTables_Table_4 thead {
     display: none;
