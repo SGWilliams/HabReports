@@ -157,6 +157,33 @@ table.HandModel.dataTable tbody td, table.Citations.dataTable tbody td {
 #sciName {
 	font-style: italic;
 }
+#section {
+	font-weight: bold;
+	font-size: 14px;
+}
+#parameter {
+	font-weight: bold;
+	font-style: italic;
+	font-size: 14px;
+	color: #072c49;
+}
+#paramDef {
+	font-style: italic;
+	font-size: 14px;
+	color: #072c49;
+}
+#paramList {
+	margin-left: 20px;
+}
+#paramText {
+	font-style: normal;
+	font-size: 14px;
+}
+.hangingindent {
+  padding-left: 22px ;
+  text-indent: -22px ;
+  font-size: 14px;
+}
 .items {
   display: table;
   width: 100%;
