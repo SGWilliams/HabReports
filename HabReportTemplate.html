@@ -223,17 +223,18 @@
 <div id="comNameCP">{{common_name}}</div>
 <div id="sciNameCP">{{sci_name}}</div>
 <div id="coverInfo">
-    <b>Gap Analysis Program Species Code: </b> {{spp}} <br />
-    <b>Integrated Taxonomic Information System TSN: </b> {{itis}} <br />
+    Gap Analysis Program Species Code: <em id="varCP"> {{spp}} </em><br />
+    Integrated Taxonomic Information System TSN: <em id="varCP"> {{itis}} </em><br />
 	<br />
-    <b>Version: </b> CONUS_2001v1 <br />
-	<b>Model Creation: </b> 
+    Model ID (extent, year, version): <em id="varCP"> CONUS_2001v1 </em><br />
+	Model Editor: <em id="varCP"> {{whoEditor}} </em><br />
+	Model Reviewer: <em id="varCP"> {{whoReview}} </em><br />
+<!-- 	Model Creation:  
 	{{editors}}
- 	<br />
-    <b>DOI Data Link: </b> {{DOIpath}} <br />
-    <b>ScienceBase Data Link: </b> {{SBpath}} <br />
+ --> 	<br />
+    DOI Data Link: <em id="varCP"> {{DOIpath}} </em><br />
 	<br />
-	<b>Date Report Generated: </b> {{tadaysdate}} <br />
+	Date Report Generated: <em id="varCP"> {{tadaysdate}} </em><br />
 	<br />
 <!-- 	SOME KIND OF CITATION <br />
 	OTHER INFORMATION? <br /> -->
@@ -249,11 +250,11 @@
 </div>
 
 <div class="pageBreak">
-	<h2>Habitat Modeling: Ancillary Parameters</h2>
+	<h2>Habitat Modeling: Model Parameters</h2>
 	{{ modelling_variables_pvtable }}
     <div>
 		<span class="regionCodes">
-			GP = Great Plains;
+			*GP = Great Plains;
 			NE = Northeast;
 			NW = Northwest;
 			SE = Southeast;
@@ -261,7 +262,7 @@
 			UM = Upper Midwest
 		</span>
         <span class="downloadHint">
-			More infomation regarding modeling process: https://gapanalysis.usgs.gov/species/data/download/
+			More information regarding modeling process: https://gapanalysis.usgs.gov/species/data/
 		</span>
     </div>
 </div>
@@ -276,7 +277,7 @@
 	{{ modelling_mapunits_pvtable }}
     <div class="infoLine">
         <span class="regionCodes">
-			GP = Great Plains;
+			*GP = Great Plains;
 			NE = Northeast;
 			NW = Northwest;
 			SE = Southeast;
@@ -284,7 +285,7 @@
 			UM = Upper Midwest
 		</span>
         <span class="downloadHint">
-			More infomation regarding modeling process: https://gapanalysis.usgs.gov/species/data/download/
+			More information regarding modeling process: https://gapanalysis.usgs.gov/species/data/
 		</span>
     </div>
 </div>
@@ -296,86 +297,103 @@
 
 <div class="pageBreak">
 	<h2>Model Parameter Definitions</h2>
+	<div id="section">Land Cover Map Units</div>
+	<p class="hangingindent">
+	<em id="parameter">Land Cover Data Source</em>
+	<em id="paramDef"> &mdash; National Gap Land Cover Ver 1.0 (2001) &mdash; </em>The ecological systems mapped in the GAP National Land Cover Data were   used as &lsquo;map units&rsquo; to describe habitat types preferred by species. &nbsp;&nbsp; https://doi.org/10.5066/F7959GF5
+	</p> 
+	<div id="paramList">
+	<em id="paramDef">Absent (0) &mdash; </em>
+	<em id="paramText">Not utilized by species.</em>
+	<br>
+	<em id="paramDef">Primary (1) &mdash; </em>
+	<em id="paramText">Utilized by species.</em>
+	<br>
+	<em id="paramDef">Secondary (2) &mdash; </em>
+	<em id="paramText">Utilized by species if in proximity to Primary map units (see Secondary Map Units below).</em>
+	<br>
+	</div>
 	<div id="section">Land Cover Limitations</div>
 	<p class="hangingindent">
 	<em id="parameter">Contiguous Patch</em>
-	<em id="paramDef"> – Minimum size (ha) – </em>
+	<em id="paramDef"> &mdash; Minimum size (ha) &mdash; </em>
 	<em id="paramText">This parameter is set using the most conservation values explicitly stated in the species literature. Any mapped habitat not meeting the minimum contiguous patch size is eliminated. If applied, this is the last step in habitat modeling.</em>
 	</p>
 	<p class="hangingindent">
 	<em id="parameter">Edge Type Usage</em>
-	<em id="paramDef"> – Ecotone Width (m) – </em>
+	<em id="paramDef"> &mdash; Ecotone Width (m) &mdash; </em>
 	<em id="paramText">We grouped map units into forested, non-forested, and shrubland/woodland land cover types to identify both Forest/Open ecotones and Woodland/Shrubland. Using this data set, we can define the width and nature of ecotones utilized by species.</em>
 	</p>
 	<p class="hangingindent">
 	<em id="parameter">Forest Interior Usage</em>
-	<em id="paramDef"> – Distance From Edge (m) – </em>
+	<em id="paramDef"> &mdash; Distance From Edge (m) &mdash; </em>
 	<em id="paramText">Used to limit species to forest interiors or to exclude them from such.</em>
 	</p>
 	<p class="hangingindent">
 	<em id="parameter">Secondary Map Units</em>
-	<em id="paramDef"> – Distance From Primary Map Units (m) – </em>
+	<em id="paramDef"> &mdash; Distance From Primary Map Units (m) &mdash; </em>
 	<em id="paramText">Secondary Map Units identified in the Map Units table (2) are included in a species habitat map if they are within proximity to Primary Map Units (1).</em>
 	</p>
 	<div id="section">Hydrographic Limitations</div>
 	<p class="hangingindent">
 	<em id="parameter">Flowing Water</em>
-	<em id="paramDef"> – Distance Into/From (m) – </em>
+	<em id="paramDef"> &mdash; Distance Into/From (m) &mdash; </em>
 	<em id="paramText">Flowing water represents hydrographic features such as streams, rivers, springs, seeps, ditches with moving water, etc.</em>
 	</p>
 	<p class="hangingindent">
 	<em id="parameter">Open/Standing Water</em>
-	<em id="paramDef"> – Distance Into/From (m) – </em>
+	<em id="paramDef"> &mdash; Distance Into/From (m) &mdash; </em>
 	<em id="paramText">Standing water represents hydrographic features such as lakes, ponds, reservoirs, bays, inlets, estuaries, ocean, ditches with stagnant water, etc.</em>
 	</p>
 	<p class="hangingindent">
 	<em id="parameter">Wet Vegetation</em>
-	<em id="paramDef"> – Distance Into/From (m) – </em>
+	<em id="paramDef"> &mdash; Distance Into/From (m) &mdash; </em>
 	<em id="paramText">Wet vegetation represents hydrographic features such as swamps, marshes, Carolina bays, etc. This includes a collection of map units representing seasonally or tidally inundated woody and non-woody plants.</em>
 	</p>
 	<p class="hangingindent">
 	<em id="parameter">Water Salinity</em>
-	<em id="paramDef"> – Freshwater Only, Brackish/Salt Water Only, All Water - </em>
+	<em id="paramDef"> &mdash; Freshwater Only, Brackish/Salt Water Only, All Water &mdash; </em>
 	<em id="paramText">Water salinity is a major factor when considering habitat conditions for many species. However, the dynamic and complex nature of water systems makes the development of a highly refined and reliable data layer challenging. Therefore, we developed three general categories to include in species habitat models for species requiring water.</em>
 	</p>
 	<p class="hangingindent">
 	<em id="parameter">Water Velocity</em>
-	<em id="paramDef"> - Slow Only, Fast Only, All Types – </em>
+	<em id="paramDef"> &mdash; Slow Only, Fast Only, All Types &mdash; </em>
 	<em id="paramText">For some aquatic species, this is an important aspect of their habitat, such as oxygenation levels, presence of invertebrate prey, and amount of sediment within the water column and on streambed substrates. Stream velocity (i.e., stream gradient) was derived from a combination of streams and slopes calculated from a digital elevation model (DEM), which created three categories for stream gradient.</em>
+	</p>
 	<div id="paramList">
-	<em id="paramDef">Slow Only – </em>
+	<em id="paramDef">Slow Only &mdash; </em>
 	<em id="paramText">For species that require slow moving or almost stagnant sections of streams or rivers. Typically these are areas where the underlying topography is flat (0 % gradient).</em>
 	<br>
-	<em id="paramDef">Fast Only – </em>
+	<em id="paramDef">Fast Only &mdash; </em>
 	<em id="paramText">For species that require high velocity sections of streams or rivers. Typically these are areas where the underlying topography is steep. A threshold of > 5 % gradient was used.</em>
 	<br>
-	<em id="paramDef">All Types – </em>
+	<em id="paramDef">All Types &mdash; </em>
 	<em id="paramText">For species that can utilize either fast or slow sections of streams or rivers.</em>
 	</div>
-	</p>
+
 	<p class="hangingindent">
 	<em id="parameter">Human Impact Avoidance</em>
-	<em id="paramDef"> - High, Medium, Low - </em>
+	<em id="paramDef"> &mdash; High, Medium, Low &mdash; </em>
 	<em id="paramText">Environments dominated by human disturbance such as roads, cities, and the constructed materials that support human habitation have profound effects on species. For most species, this data layer was used to exclude species from a portion of the landscape. However, some species respond favorably to human habitats, therefore this data layer was used in an inclusionary manner.</em>
+	</p>
 	<div id="paramList">
-	<em id="paramDef">High – </em>
+	<em id="paramDef">High &mdash; </em>
 	<em id="paramText">For species that are very intolerant of human disturbance. All portions of the landscape identified as being directly influenced by human disturbance are eliminated from the predicted distribution.</em>
 	<br>
-	<em id="paramDef">Medium – </em>
+	<em id="paramDef">Medium &mdash; </em>
 	<em id="paramText">For species that are moderately intolerant of human disturbance. Only portions of the landscape identified as being highly or moderately influenced by human disturbance are eliminated from the predicted distribution.</em>
 	<br>
-	<em id="paramDef">Low – </em>
+	<em id="paramDef">Low &mdash; </em>
 	<em id="paramText">For species that are partially intolerant of human disturbance. Only portions of the landscape identified as being highly influenced by human disturbance are eliminated from the predicted distribution.</em>
 	</div>
-	</p>
 	<p class="hangingindent">
 	<em id="parameter">Elevation Limits</em>
-	<em id="paramDef"> – Min/Max (m) – </em>
+	<em id="paramDef"> &mdash; Min/Max (m) &mdash; </em>
 	<em id="paramText">Some species respond to environments directly related to altitudinal variation. Elevation (e.g., DEM) is easily implemented in spatial modeling by limiting the model to the minimum and maximum values explicitly stated in the literature. DEMs are utilized directly and are measured in meters above and below mean sea level.</em>
 	</p>
 	<p class="hangingindent">
 	<em id="parameter">Hand Modeled</em>
-	<em id="paramDef"> – </em>
+	<em id="paramDef"> &mdash; </em>
 	<em id="paramText">Occasionally, habitat models had to be manipulated outside of the main scripting environmnent in order to acheive the desired results. If so, notes on additional processing are provided.</em>
 	</p>
 </main>

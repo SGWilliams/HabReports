@@ -143,6 +143,11 @@ table.HandModel.dataTable tbody td, table.Citations.dataTable tbody td {
 	font-size: 30px;
 	margin-left: 40px;
 }
+#varCP {
+	font-style: normal;
+	font-weight: bold;
+	color: #072c49;
+}
 #coverInfo {
 	float:left; 
 	clear:both; 
@@ -158,21 +163,25 @@ table.HandModel.dataTable tbody td, table.Citations.dataTable tbody td {
 	font-style: italic;
 }
 #section {
+    margin-top: 0.5em;
 	font-weight: bold;
-	font-size: 14px;
+	font-style: italic;
+	font-size: 15px;
 }
 #parameter {
 	font-weight: bold;
-	font-style: italic;
+	font-style: normal;
 	font-size: 14px;
 	color: #072c49;
 }
 #paramDef {
-	font-style: italic;
+	font-style: normal;
 	font-size: 14px;
 	color: #072c49;
 }
 #paramList {
+	margin-top: 0px;
+	margin-bottom: 0px;
 	margin-left: 20px;
 }
 #paramText {
@@ -180,6 +189,8 @@ table.HandModel.dataTable tbody td, table.Citations.dataTable tbody td {
 	font-size: 14px;
 }
 .hangingindent {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   padding-left: 22px ;
   text-indent: -22px ;
   font-size: 14px;
