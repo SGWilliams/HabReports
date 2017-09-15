@@ -36,7 +36,7 @@ table.dataTable thead th:first-child {
 table.Editors.dataTable tbody td:first-child {
     font-weight: bold;
     text-align: left;
-
+    width: 300px;
 }
 table.HandModel.dataTable tbody td:first-child {
     font-weight: bold;
