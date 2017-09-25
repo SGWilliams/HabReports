@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -185,7 +185,16 @@
                }
 			   if (anywater == 'Yes') {
                    $("tr:contains('Wet Vegetation') td:empty, tr:contains('Flowing Water') td:empty, tr:contains('Open/Standing Water') td:empty").html("No");
-			   }
+               }
+
+               $("tr:contains('Distance Into (m)') td:contains('NR'), tr:contains('Distance From (m)') td:contains('NR')").html(" ");
+               $("tr:contains('Wet Vegetation') td:contains('No'), tr:contains('Flowing Water') td:contains('No'), tr:contains('Open/Standing Water') td:contains('No')").each(function () {
+                   idx = $(this).index();
+
+                   $(this).closest('tr').next().children().eq(idx).html(" ");
+                   $(this).closest('tr').next().next().children().eq(idx).html(" ");
+               });
+
 
 			   if (!$("tr:contains('Hand Modeled'):contains('Yes')").length > 0) {
                  $( "#handModelDiv" ).css( 'display', 'none' );
