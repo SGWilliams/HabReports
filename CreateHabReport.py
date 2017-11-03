@@ -1,30 +1,40 @@
-# This script creates habitat model reports for GAP 
-#
-# Script exports the model report in HTML and pdf
-#
-# Public Functions:
-# get_config_values(configFile) --reads data from configuration file
-#     configFile -- config file name (currently hard coded to be modelReport.cfg
-#     config file should be a text file with the following information.  Note that non of the strings are in quotes
-#
-#     [SETUP]
-#     home = C:/myCodeDirectory/
-#
-#     [DB]
-#     SpeciesConnectionString = DRIVER={SQL Server};SERVER=<mySQLServerNAME/INSTANCE>;DATABASE=<mySQLServerDatabase>e;Trusted_Connection=True
-#     WHRdBConnectionString = DRIVER={SQL Server};SERVER=<mySQLServerNAME/INSTANCE>;DATABASE=<mySQLServerDatabase>;Trusted_Connection=True
-#     AnalDBConnectionString = DRIVER={SQL Server};SERVER=<mySQLServerNAME/INSTANCE>;DATABASE=<mySQLServerDatabase>;Trusted_Connection=True
-#
-#     [PDF]
-#     wkhtmltopdf = C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe
-#
-#
-# processSppReport(spp) -- processes given species
-#     spp -- 6 character GAP species code
-#   
-#  
-#   
-#    
+"""
+CreateHabReport.py
+This script creates PDF habitat model reports for GAP species.
+
+Created on Tue Jun 06 13:54:40 2017
+@authors: Linda Schueck and Steve Williams
+
+=======================================================================
+Public Functions:
+ get_config_values(configFile) --reads data from configuration file
+     configFile -- config file name (currently hard coded to be modelReport.cfg
+     config file should be a text file with the following information.  
+       Note that non of the strings are in quotes.
+
+     [SETUP]
+     home = C:/myCodeDirectory/
+
+     [DB]
+     SpeciesConnectionString = DRIVER={SQL Server};
+       SERVER=<mySQLServerNAME/INSTANCE>;
+       DATABASE=<mySQLServerDatabase>e;Trusted_Connection=True
+     WHRdBConnectionString = DRIVER={SQL Server};
+       SERVER=<mySQLServerNAME/INSTANCE>;
+       DATABASE=<mySQLServerDatabase>;Trusted_Connection=True
+     AnalDBConnectionString = DRIVER={SQL Server};
+       SERVER=<mySQLServerNAME/INSTANCE>;
+       DATABASE=<mySQLServerDatabase>;Trusted_Connection=True
+
+     [PDF]
+     wkhtmltopdf = C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe
+
+
+ processSppReport(spp) -- processes given species
+     spp -- 6 character GAP species code
+   
+=======================================================================
+"""
 import io
 try:
     import ConfigParser  # python 2.7
@@ -35,19 +45,35 @@ import pandas as pd
 import numpy as np
 from pandas import DataFrame
 import pyodbc
-import sys
+import sys, os
 from jinja2 import Environment, FileSystemLoader
 import pdfkit
 import time
 
+# CONFIGURATION
+# =======================================================================
 pd.options.display.max_colwidth = 1000
 headerhtml_file = ''
 
 configFile="modelReport.cfg"
-def get_config_values(configFile): 
-	
+
+# SET REPLACE/SKIP OPTION
+# =======================================================================
+rVar = raw_input("Replace Existing Reports? (Y/n): ")
+if rVar == "Y" or rVar == "y" or rVar == "":
+    print "Replacing existing reports"
+    sVar = "Replace"
+else:
+    print "Keeping existing reports"
+    sVar = "Keep"
+print ""
+
+# FUNCTIONS
+# =======================================================================
+# Get configuration values from local config file
+def get_config_values(configFile): 	
     config_values = { 
-		'fileDir':"",
+		 'fileDir':"",
         'Species_con':"",
         'WHRdB_con':"",
 		 'AnalDB_con':"",
@@ -65,24 +91,25 @@ def get_config_values(configFile):
         config_values['Species_con'] = config.get('DB','SpeciesConnectionString')
         config_values['WHRdB_con'] = config.get('DB','WHRdBConnectionString')
         config_values['AnalDB_con'] = config.get('DB','AnalDBConnectionString')
-        config_values['wkhtmltopdf_exe'] = config.get('PDF','wkhtmltopdf')
-        
+        config_values['wkhtmltopdf_exe'] = config.get('PDF','wkhtmltopdf')       
     except Exception as e:
 		#logging.debug('configuration file error')
 		#logging.error(e)
         print(e)
         exit()
-
     return config_values
 
+# -----------------------------------------------------------------------
+# TODO need to add some error handling in case species returns no data in one of the SQL statements
+# Generate tables from DBs for inclusion in report, then renders and exports as PDF
 def processSppReport(spp):
 
-    mappath = '<img src="file:///'+fileDir+'maps/'+spp+'_CONUS_HabMap_2001v1.png" id="habmap"/>'
+    mappath = '<img src="file:///'+fileDir+'MAPs/'+spp+'_CONUS_HabMap_2001v1.png" id="habmap"/>'
 
-#    sql = "WITH t AS (SELECT LEFT(RIGHT(tblModelStatus.strSpeciesModelCode, 2), 1) AS seas, RIGHT(RIGHT(tblModelStatus.strSpeciesModelCode, 2), 1) AS region, tblModelStatus.whoEditingComplete, tblModelStatus.whoInternalReviewComplete, tblModelStatus.strUC FROM tblModelStatus INNER JOIN tblAllSpecies ON tblModelStatus.strSpeciesModelCode = tblAllSpecies.strSpeciesModelCode WHERE (RIGHT(RIGHT(tblModelStatus.strSpeciesModelCode, 2), 1) IN ('1', '2', '3', '4', '5', '6')) AND (tblModelStatus.strUC = '"+ spp +"' ) AND (tblAllSpecies.ysnInclude = 1) ), s as (SELECT CASE seas WHEN 'w' THEN 'Winter' WHEN 's' THEN 'Summer' WHEN 'y' THEN 'Year-round' END AS season, tblRegionDef.strRegionName as region, t_1.whoEditingComplete, t_1.whoInternalReviewComplete FROM t AS t_1 INNER JOIN tblRegionDef ON t_1.region = tblRegionDef.intRegionCode) SELECT season + ' ' + region + ':' as Submodel , whoEditingComplete as 'Model Editor(s)',  whoInternalReviewComplete as 'Model Reviewer(s)' from s  ORDER BY Submodel"
-#    #print(sql)
-#    EditorsTable = pd.read_sql(sql, WHRdB_con)
-#    #print("Editor Info: " + EditorsTable)
+    #sql = "WITH t AS (SELECT LEFT(RIGHT(tblModelStatus.strSpeciesModelCode, 2), 1) AS seas, RIGHT(RIGHT(tblModelStatus.strSpeciesModelCode, 2), 1) AS region, tblModelStatus.whoEditingComplete, tblModelStatus.whoInternalReviewComplete, tblModelStatus.strUC FROM tblModelStatus INNER JOIN tblAllSpecies ON tblModelStatus.strSpeciesModelCode = tblAllSpecies.strSpeciesModelCode WHERE (RIGHT(RIGHT(tblModelStatus.strSpeciesModelCode, 2), 1) IN ('1', '2', '3', '4', '5', '6')) AND (tblModelStatus.strUC = '"+ spp +"' ) AND (tblAllSpecies.ysnInclude = 1) ), s as (SELECT CASE seas WHEN 'w' THEN 'Winter' WHEN 's' THEN 'Summer' WHEN 'y' THEN 'Year-round' END AS season, tblRegionDef.strRegionName as region, t_1.whoEditingComplete, t_1.whoInternalReviewComplete FROM t AS t_1 INNER JOIN tblRegionDef ON t_1.region = tblRegionDef.intRegionCode) SELECT season + ' ' + region + ':' as Submodel , whoEditingComplete as 'Model Editor(s)',  whoInternalReviewComplete as 'Model Reviewer(s)' from s  ORDER BY Submodel"
+    ##print(sql)
+    #EditorsTable = pd.read_sql(sql, WHRdB_con)
+    ##print("Editor Info: " + EditorsTable)
 
     sql = "SELECT[strRegionName] + ' ' + [strSeasonName] + ': ' as Submodel,[memHMNotes] as 'Comments' FROM [WHRdB].[dbo].[tblModelingAncillary] WHERE left([strSpeciesModelCode], 6) = '"+ spp +"' and  ysnHandModel = 1 ORDER BY Submodel"
     #print(sql)
@@ -104,11 +131,12 @@ def processSppReport(spp):
     whoEditor=whoList.WhoEditor[0]
     whoReview=whoList.WhoReview[0]
 
-    sql = " SELECT [strITIScode] as ITIScode, strDoiHM as DOIpath   FROM GAP_AnalyticDB.dbo.tblTaxa   WHERE strUC = '"+ spp +"'"
+    sql = " SELECT intITIScode as ITIScode, intNSglobal as NSglobal, strDoiHM as DOIpath   FROM GAP_AnalyticDB.dbo.tblTaxa   WHERE strUC = '"+ spp +"'"
     #print(sql)
     IdentifiersList = pd.read_sql(sql, AnalDB_con)
     #print("Species Info: " + speciesList)
     itis = IdentifiersList.ITIScode[0]
+    nsid = IdentifiersList.NSglobal[0]
     doipath = IdentifiersList.DOIpath[0]
 
     sql = "select strSpeciesModelCode as ModelCode, intLSGapMapCode as MapUnitCode, ysnPres as Present, ysnPresAuxiliary as PresentAuxiliary, right(strSpeciesModelCode, 2) as seasonRegion from WHRdB.dbo.tblSppMapUnitPres where strSpeciesModelCode in (select strSpeciesModelCode from WHRdB.dbo.tblAllSpecies where strUC = '"+ spp +"' and ysnInclude = 1) and (ysnPres = 1 or ysnPresAuxiliary = 1) "
@@ -133,16 +161,15 @@ def processSppReport(spp):
     mu_pivot = pd.pivot_table(MapUnitTable, index=['ModellingMapUnit'], columns=['Season', 'Region*'], values = 'intMU', aggfunc=np.sum)
     #print(mu_pivot)
 
-
     sql = "SELECT distinct CAST(dbo.tblCitations.memCitation as nvarchar(max)) FROM (dbo.tblAllSpecies INNER JOIN dbo.tblSppCitations  ON dbo.tblAllSpecies.strSpeciesModelCode = dbo.tblSppCitations.strSpeciesModelCode)  INNER JOIN dbo.tblCitations ON  dbo.tblSppCitations.strRefCode = dbo.tblCitations.strRefCode  WHERE dbo.tblAllSpecies.strUC = '"+ spp +"' ORDER BY CAST(dbo.tblCitations.memCitation as nvarchar(max))"
     #print(sql)
     citationsList = pd.read_sql(sql, WHRdB_con)
     #print("Citations: " )
+    #print( citationsList )
 
     # MAY NEED TO DO SOMETHING ABOUT BAD CHARACTERS IN CITATIONS
     #Citatiosvalue = unicode(citationsList, "utf-8", errors="ignore")
     #print(citationsList)
-
 
     print('Done Loading Tables for spp=' +spp)
     header_template_vars =  {
@@ -156,11 +183,11 @@ def processSppReport(spp):
                      "usgs_logo": usgs_logo,
                      }
     headerhtml_out = header_template.render(header_template_vars)
-    headerhtml_file = io.open(spp + '_CONUS_2001v1_SppRpt_Header.html',"w")
+    headerhtml_file = io.open('tmp_Header.html',"w")
     headerhtml_file.write(headerhtml_out)
     headerhtml_file.close()
-    pdfkit_options['header-html'] = 'file:///'+fileDir+spp + '_CONUS_2001v1_SppRpt_Header.html'
-    pdfkit_options['footer-html'] = 'file:///'+fileDir+'HabReportTemplateFooter.html'
+    pdfkit_options['header-html'] = 'file:///' + fileDir + 'tmp_Header.html'
+    pdfkit_options['footer-html'] = 'file:///' + fileDir + 'HabReportTemplateFooter.html'
 
     template_vars = {                     
                      "title" : "Habitat Model Report Header for "+ spp ,
@@ -168,6 +195,7 @@ def processSppReport(spp):
                      "sci_name": sciname,
                      "spp": spp,
                      "itis": itis,
+                     "nsid": nsid,
                      "whoEditor": whoEditor,
                      "whoReview": whoReview,
                      "DOIpath": doipath,
@@ -178,21 +206,19 @@ def processSppReport(spp):
                      "map_file": mappath,
                      "pdf_css": pdf_css,
                      "usgs_logo": usgs_logo,
-                     "tadaysdate" : time.strftime("%B %d, %Y"),        #("%d/%m/%Y"),
+                     "todaysdate" : time.strftime("%B %d, %Y"),        #("%d/%m/%Y"),
                      #"editors" : EditorsTable.to_html(classes='Editors', na_rep=''),
                      "handmodel_table" : HandModelTable.to_html(classes='HandModel', na_rep='')
                     }
     html_out = template.render(template_vars)
-    html_file = io.open(spp + '_CONUS_2001v1_SppRpt.html',"w")
+    html_file = io.open('tmp_SppRpt.html',"w")
     html_file.write(html_out)
     html_file.close()
-    fn = spp + '_CONUS_2001v1_SppRpt.pdf'
-    pdf = pdfkit.from_string(html_out, fn, configuration=pdfconfig, options=pdfkit_options)
+    fn = fileDir + "PDFs/" + spp + '_CONUS_2001v1_SppRpt.pdf'
+    pdf = pdfkit.from_string(html_out, str(fn), configuration=pdfconfig, options=pdfkit_options)
 
-
-
-
-
+# CONFIGURATION
+# =======================================================================
 config = []
 config = get_config_values(configFile)
 
@@ -209,7 +235,7 @@ env = Environment(loader=FileSystemLoader('.'))
 template = env.get_template("HabReportTemplate.html")
 header_template = env.get_template("HabReportTemplateHeader.html")
 
-pdf_css = '<link rel="stylesheet" type="text/css" href="file:///'+fileDir+'html_files/stylesheet.css">'
+pdf_css = '<link rel="stylesheet" type="text/css" href="file:///' + fileDir + 'html_files/stylesheet.css">'
 pdfkit_options = {
     'page-size': 'Letter',
     'orientation': 'Landscape',
@@ -219,19 +245,31 @@ pdfkit_options = {
     'margin-left': '0.4in',
     'encoding': "UTF-8",
     'no-outline': None,
-    
 }
 
+# SET UP LOOP ON SPECIES TO RUN REPORTS
+# =======================================================================
+## List of species that you want to generate Habitat Report PDFs for.
+sppListFile = fileDir + 'HabReport NOT RUN.txt'
 
-# TODO eventually add loop to process all species from db connection but for now a list
-speciesList=['bAMKEx','aRHSAx','bBOOWx','mMAORx','bBAEAx','bBAGOx','aCCFRx','bOSPRx','aAMTOx','bAMROx','aHELLa','mGMGSb'][:2]
+# Iterate through each spp in sppList.
+sppList = open(sppListFile,"r")
+for aline in sppList:
+    values = aline.split()
+    strTif = values[0]
+    strUC = strTif[:6]
+    fnPDF = fileDir + "PDFs/" + strUC + '_CONUS_2001v1_SppRpt.pdf'
 
-# TODO need to add some error handling in case species returns no data in one of the SQL statements and to make sure the connections get closed
-for species in speciesList:
-    processSppReport(species)
+    # Implement replace/skip 
+    if (sVar == 'Keep' and str(os.path.isfile(fnPDF)) == 'True'):
+        print strUC + " output exists - skipping..."
+    else:
+        print "Working on " + strUC + "..."
+        processSppReport(strUC)
 
-
-# Close connections
-Species_con.close()
+# CLOSE DB CONNECTIONS
+# =======================================================================
+# TODO need to make sure the connections get closedSpecies_con.close()
 WHRdB_con.close()
 AnalDB_con.close()
+
