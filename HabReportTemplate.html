@@ -109,23 +109,8 @@
                     searching: false,
                     info: false
                 });
-		hm_dt = $('table.dataframe.HandModel').DataTable(
-                {
-                    "columnDefs": [
-                        {
-                            "targets": [0],
-                            "visible": false,
-                        }
-                ], 
-                    autoWidth: false,
-                    paging: false,
-                    ordering: false,
-                    searching: false,
-                    info: false
-                });
 
 				$('table.dataframe.Editors').attr('border', '0');
-				$('table.dataframe.HandModel').attr('border', '0');
 				$('table.dataframe.Citations').attr('border', '0');
 				$(".sorting, .sorting_asc, .sorting_desc").unbind('click');
 
@@ -278,8 +263,9 @@
 </div>
 
 <div id="handModelDiv" class="pageBreak">
-        <h2>Hand Modeling Comments</h2>
-            {{ handmodel_table }}
+        <h2>Habitat Modeling: Hand Model Comments</h2>
+			{{ hm_note }}
+		<!-- {{ handmodel_table }} -->
 </div>
 
 <div class="pageBreak">

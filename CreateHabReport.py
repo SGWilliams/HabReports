@@ -102,7 +102,7 @@ def get_config_values(configFile):
 # -----------------------------------------------------------------------
 # TODO need to add some error handling in case species returns no data in one of the SQL statements
 # Generate tables from DBs for inclusion in report, then renders and exports as PDF
-def processSppReport(spp):
+def processSppReport(spp):  
 
     mappath = '<img src="file:///'+fileDir+'MAPs/'+spp+'_CONUS_HabMap_2001v1.png" id="habmap"/>'
 
@@ -111,10 +111,20 @@ def processSppReport(spp):
     #EditorsTable = pd.read_sql(sql, WHRdB_con)
     ##print("Editor Info: " + EditorsTable)
 
-    sql = "SELECT[strRegionName] + ' ' + [strSeasonName] + ': ' as Submodel,[memHMNotes] as 'Comments' FROM [WHRdB].[dbo].[tblModelingAncillary] WHERE left([strSpeciesModelCode], 6) = '"+ spp +"' and  ysnHandModel = 1 ORDER BY Submodel"
+#    sql = "SELECT[strRegionName] + ' ' + [strSeasonName] + ': ' as Submodel,[memHMNotes] as 'Comments' FROM [WHRdB].[dbo].[tblModelingAncillary] WHERE left([strSpeciesModelCode], 6) = '"+ spp +"' and  ysnHandModel = 1 ORDER BY Submodel"
+#    #print(sql)
+#    HandModelTable = pd.read_sql(sql, WHRdB_con)
+#    #print("Hand Model Info: " + HandModelTable)
+    
+    sql = "SELECT replace(replace(replace(replace(replace(replace(replace(memHMNotes, '    ', '&emsp;'), CHAR(13)+CHAR(10), '<br />'), 'Hand model description:', '<p class=\"hangingindent\">Hand model description:'), 'Summer:', '<br />Summer:'), 'Winter:', '<br />Winter:'), 'Winter/Non-breeding:', '<br />Winter/Non-breeding:'), 'Year-round:', '<br />Year-round:') AS memHMNote FROM WHRdB.dbo.tblHMNotes WHERE strUC = '"+ spp +"'"
     #print(sql)
-    HandModelTable = pd.read_sql(sql, WHRdB_con)
-    #print("Hand Model Info: " + HandModelTable)
+    hmNotesList = pd.read_sql(sql, WHRdB_con)
+    #print("hmNotes: " + hmNotesList)
+    if len(hmNotesList) > 0:
+        hmNote = "<p class=\"submodelinfo\">"  + hmNotesList.memHMNote[0] + "</p>"
+        #print("hmNote: " + hmNote)
+    else:
+        hmNote=""
 
     sql = "select strCommonName as CommonName, strFullSciName as ScientificName, RTRIM(strModelStatus) as ModelStatus from Species_Database.dbo.tblAllSpecies where strUniqueID = '"+ spp +"'"
     #print(sql)
@@ -134,7 +144,7 @@ def processSppReport(spp):
     sql = " SELECT intITIScode as ITIScode, intNSglobal as NSglobal, strDoiHM as DOIpath   FROM GAP_AnalyticDB.dbo.tblTaxa   WHERE strUC = '"+ spp +"'"
     #print(sql)
     IdentifiersList = pd.read_sql(sql, AnalDB_con)
-    #print("Species Info: " + speciesList)
+    #print(IdentifiersList)
     itis = IdentifiersList.ITIScode[0]
     nsid = IdentifiersList.NSglobal[0]
     doipath = IdentifiersList.DOIpath[0]
@@ -142,7 +152,6 @@ def processSppReport(spp):
     sql = "select strSpeciesModelCode as ModelCode, intLSGapMapCode as MapUnitCode, ysnPres as Present, ysnPresAuxiliary as PresentAuxiliary, right(strSpeciesModelCode, 2) as seasonRegion from WHRdB.dbo.tblSppMapUnitPres where strSpeciesModelCode in (select strSpeciesModelCode from WHRdB.dbo.tblAllSpecies where strUC = '"+ spp +"' and ysnInclude = 1) and (ysnPres = 1 or ysnPresAuxiliary = 1) "
     #print(sql)
     presenceList = pd.read_sql(sql, WHRdB_con)
-    #print("Presence: " )
     #print(presenceList)
 
     sql = "With auxVariables as ( SELECT Season = CASE tblAllSpecies.strSeasonCode WHEN 'S' THEN 'Summer' WHEN 'W' THEN 'Winter' WHEN 'Y' THEN 'Year Round' END, Region = CASE tblAllSpecies.intRegionCode WHEN 1 THEN 'NW' WHEN 2 THEN 'UM' WHEN 3 THEN 'NE' WHEN 4 THEN 'SW' WHEN 5 THEN 'GP' WHEN 6 THEN 'SE' END, CONVERT(nvarchar, strAvoid) as 'Human Impact Avoidance', CASE WHEN intElevMin = 9999 THEN CONVERT(nvarchar,'NR') ELSE CONVERT(nvarchar, intElevMin) END as 'Minimum elevation', CASE WHEN intElevMax = 9999 THEN CONVERT(nvarchar,'NR') ELSE CONVERT(nvarchar, intElevMax) END as 'Maximum elevation', CASE WHEN ysnHydroFW = 1 THEN CONVERT(nvarchar, 'Yes') ELSE CONVERT(nvarchar,'') END as 'Utilizes Flowing Water', CASE WHEN intIntoBuffFW = 9999 THEN CONVERT(nvarchar,'NR') ELSE CONVERT(nvarchar, intIntoBuffFW) END as 'Into flowing', CASE WHEN intFromBuffFW = 9999 THEN CONVERT(nvarchar,'NR') ELSE CONVERT(nvarchar, intFromBuffFW) END as 'From flowing', CASE WHEN ysnHydroOW = 1 THEN CONVERT(nvarchar, 'Yes') ELSE CONVERT(nvarchar,'') END as 'Utilizes Open/Standing Water', CASE WHEN intIntoBuffOW = 9999 THEN CONVERT(nvarchar,'NR') ELSE CONVERT(nvarchar, intIntoBuffOW) END as 'Into open/standing', CASE WHEN intFromBuffOW = 9999 THEN CONVERT(nvarchar,'NR') ELSE CONVERT(nvarchar, intFromBuffOW) END as 'From open/standing', CASE WHEN ysnHydroWV = 1 THEN CONVERT(nvarchar, 'Yes') ELSE CONVERT(nvarchar,'') END as 'Utilizes Wet Vegetation', CASE WHEN intIntoBuffWV = 9999 THEN CONVERT(nvarchar,'NR') ELSE CONVERT(nvarchar, intIntoBuffWV) END as 'Into wet', CASE WHEN intFromBuffWV = 9999 THEN CONVERT(nvarchar,'NR') ELSE CONVERT(nvarchar, intFromBuffWV) END as 'From wet', CASE strSalinity WHEN 'Brackish/Saltwater Only' THEN CONVERT(nvarchar,'Brackish') WHEN 'Freshwater Only' THEN CONVERT(nvarchar,'Freshwater') WHEN 'Marine Only' THEN CONVERT(nvarchar,'Marine') ELSE strSalinity END as 'Salinity', CONVERT(nvarchar,strStreamVel) as 'Velocity', CASE WHEN cbxContPatch = 1 THEN CONVERT(nvarchar,'Yes') ELSE CONVERT(nvarchar,'') END as 'Contiguous patch', CASE WHEN intContPatchSize = 9999 THEN CONVERT(nvarchar,'NR') ELSE CONVERT(nvarchar, intContPatchSize) END as 'Minimum size', strEdgeType as 'Edge type usage', CONVERT(nvarchar,intEdgeEcoWidth) as 'Ecotone width', CASE strUseForInt WHEN 'Utilizes Forest Interior' THEN CONVERT(nvarchar,'Uses') WHEN 'Avoids Forest Interior' THEN CONVERT(nvarchar,'Avoids') ELSE null END as 'Forest interior usage', CONVERT(nvarchar,strForIntBuffer) as 'Distance from edge', CONVERT(nvarchar,intAuxBuff) as 'Distance from PMU', CASE WHEN ysnHandModel = 1 THEN CONVERT(nvarchar, 'Yes') ELSE CONVERT(nvarchar,'') END as 'Hand Modeled' FROM WHRdB.dbo.tblAllSpecies INNER JOIN WHRdB.dbo.tblModelingAncillary ON tblAllSpecies.strSpeciesModelCode = tblModelingAncillary.strSpeciesModelCode WHERE (ysnInclude = 1 AND WHRdB.dbo.tblAllSpecies.strUC = '"+ spp +"') ), up as ( SELECT Region, Season, colName, VariableValue FROM (SELECT * FROM auxVariables) aux CROSS APPLY (Values ('Human Impact Avoidance',[Human Impact Avoidance]), ('Minimum elevation',[Minimum elevation]), ('Maximum elevation',[Maximum elevation]), ('Utilizes Flowing Water',[Utilizes Flowing Water]), ('Into flowing',[Into flowing]), ('From flowing',[From flowing]), ('Utilizes Open/Standing Water',[Utilizes Open/Standing Water]), ('Into open/standing',[Into open/standing]), ('From open/standing',[From open/standing]), ('Utilizes Wet Vegetation',[Utilizes Wet Vegetation]), ('Into wet',[Into wet]), ('From wet',[From wet]), ('Salinity',[Salinity]), ('Velocity',[Velocity]), ('Contiguous patch',[Contiguous patch]), ('Minimum size',[Minimum size]), ('Edge type usage',[Edge type usage]), ('Ecotone width',[Ecotone width]), ('Forest interior usage',[Forest interior usage]), ('Distance from edge',[Distance from edge]), ('Distance from PMU',[Distance from PMU]), ('Hand Modeled',[Hand Modeled])) x(colName, VariableValue)) SELECT roworder = CASE colName WHEN 'Contiguous patch' THEN 3 WHEN 'Minimum size' THEN 4 WHEN 'Edge type usage' THEN 6 WHEN 'Ecotone width' THEN 7 WHEN 'Forest interior usage' THEN 9 WHEN 'Distance from edge' THEN 10 WHEN 'Distance from PMU' THEN 13 WHEN 'Utilizes Flowing Water' THEN 16 WHEN 'Into flowing' THEN 17 WHEN 'From flowing' THEN 18 WHEN 'Utilizes Open/Standing Water' THEN 20 WHEN 'Into open/standing' THEN 21 WHEN 'From open/standing' THEN 22 WHEN 'Utilizes Wet Vegetation' THEN 24 WHEN 'Into wet' THEN 25 WHEN 'From wet' THEN 26 WHEN 'Salinity' THEN 28 WHEN 'Velocity' THEN 30 WHEN 'Human Impact Avoidance' THEN 32 WHEN 'Minimum elevation' THEN 34 WHEN 'Maximum elevation' THEN 35 WHEN 'Hand Modeled' THEN 37 END, Region AS 'Region*', Season, CASE colName WHEN 'Hand Modeled' THEN 'Hand Modeled' WHEN 'Human Impact Avoidance' THEN 'Human Impact Avoidance' WHEN 'Minimum elevation' THEN 'Elevation Limit - Minimum (m)' WHEN 'Maximum elevation' THEN 'Elevation Limit - Maximum (m)' WHEN 'Utilizes Flowing Water' THEN 'Flowing Water' WHEN 'Into flowing' THEN 'Distance Into (m)' WHEN 'From flowing' THEN 'Distance From (m)' WHEN 'Utilizes Open/Standing Water' THEN 'Open/Standing Water' WHEN 'Into open/standing' THEN 'Distance Into (m)' WHEN 'From open/standing' THEN 'Distance From (m)' WHEN 'Utilizes Wet Vegetation' THEN 'Wet Vegetation' WHEN 'Into wet' THEN 'Distance Into (m)' WHEN 'From wet' THEN 'Distance From (m)' WHEN 'Salinity' THEN 'Water Salinity' WHEN 'Velocity' THEN 'Water Velocity' WHEN 'Contiguous patch' THEN 'Contiguous Patch' WHEN 'Minimum size' THEN 'Minimum Size (ha)' WHEN 'Edge type usage' THEN 'Edge Type Usage' WHEN 'Ecotone width' THEN 'Ecotone Width (m)' WHEN 'Forest interior usage' THEN 'Forest Interior Usage' WHEN 'Distance from edge' THEN 'Distance From Edge (m)' WHEN 'Distance from PMU' THEN 'Distance From Primary Map Units (m)' END as Variable, VariableValue FROM up"
@@ -164,12 +173,9 @@ def processSppReport(spp):
     sql = "SELECT distinct CAST(dbo.tblCitations.memCitation as nvarchar(max)) FROM (dbo.tblAllSpecies INNER JOIN dbo.tblSppCitations  ON dbo.tblAllSpecies.strSpeciesModelCode = dbo.tblSppCitations.strSpeciesModelCode)  INNER JOIN dbo.tblCitations ON  dbo.tblSppCitations.strRefCode = dbo.tblCitations.strRefCode  WHERE dbo.tblAllSpecies.strUC = '"+ spp +"' ORDER BY CAST(dbo.tblCitations.memCitation as nvarchar(max))"
     #print(sql)
     citationsList = pd.read_sql(sql, WHRdB_con)
-    #print("Citations: " )
-    #print( citationsList )
-
-    # MAY NEED TO DO SOMETHING ABOUT BAD CHARACTERS IN CITATIONS
-    #Citatiosvalue = unicode(citationsList, "utf-8", errors="ignore")
-    #print(citationsList)
+    print(citationsList)
+    # NEED TO DO SOMETHING ABOUT BAD CHARACTERS IN CITATIONS 
+    # Since I had to go into each offending citation and remove the non-recognized character
 
     print('Done Loading Tables for spp=' +spp)
     header_template_vars =  {
@@ -208,13 +214,14 @@ def processSppReport(spp):
                      "usgs_logo": usgs_logo,
                      "todaysdate" : time.strftime("%B %d, %Y"),        #("%d/%m/%Y"),
                      #"editors" : EditorsTable.to_html(classes='Editors', na_rep=''),
-                     "handmodel_table" : HandModelTable.to_html(classes='HandModel', na_rep='')
+                     #"handmodel_table" : HandModelTable.to_html(classes='HandModel', na_rep='')
+                     "hm_note": hmNote
                     }
     html_out = template.render(template_vars)
     html_file = io.open('tmp_SppRpt.html',"w")
     html_file.write(html_out)
     html_file.close()
-    fn = fileDir + "PDFs/" + spp + '_CONUS_2001v1_SppRpt.pdf'
+    fn = fileDir + "PDFs/" + spp + '_CONUS_SppRpt_2001v1.pdf'
     pdf = pdfkit.from_string(html_out, str(fn), configuration=pdfconfig, options=pdfkit_options)
 
 # CONFIGURATION
@@ -250,15 +257,16 @@ pdfkit_options = {
 # SET UP LOOP ON SPECIES TO RUN REPORTS
 # =======================================================================
 ## List of species that you want to generate Habitat Report PDFs for.
-sppListFile = fileDir + 'HabReport NOT RUN.txt'
+sppListFile = fileDir + 'List_1719.txt'
 
 # Iterate through each spp in sppList.
 sppList = open(sppListFile,"r")
 for aline in sppList:
     values = aline.split()
     strTif = values[0]
-    strUC = strTif[:6]
-    fnPDF = fileDir + "PDFs/" + strUC + '_CONUS_2001v1_SppRpt.pdf'
+    strUC = strTif[:6]          # strUC = 'mMARAh'; 
+    spp = strUC
+    fnPDF = fileDir + "PDFs/" + spp + '_CONUS_SppRpt_2001v1.pdf'
 
     # Implement replace/skip 
     if (sVar == 'Keep' and str(os.path.isfile(fnPDF)) == 'True'):
@@ -271,5 +279,6 @@ for aline in sppList:
 # =======================================================================
 # TODO need to make sure the connections get closedSpecies_con.close()
 WHRdB_con.close()
+Species_con.close()
 AnalDB_con.close()
 
