@@ -188,6 +188,11 @@ table.HandModel.dataTable tbody td, table.Citations.dataTable tbody td {
 	font-style: normal;
 	font-size: 14px;
 }
+.submodelinfo {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  font-size: 14px;
+}
 .hangingindent {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
