@@ -99,3 +99,20 @@ ENV/
 
 # mypy
 .mypy_cache/
+modelReport.cfg
+tmp_citations.py
+GenerateMaps.py
+tmp_Header.html
+tmp_SppRpt.html
+HabReport_muTable.sql
+HabReport_varTable.sql
+/html_files/USGS_ID_black.png
+/html_files/USGS_ID_black_411.png
+/USGS_Template/*
+/map_tools/*
+/MAPs/*
+/PDFs/*
+List_Null123_1719.txt
+List_HM_73.txt
+List_1.txt
+HabReport NOT RUN.txt
